@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from "moment";
+import CopyUrl from '@/assets/img/copy-url.svg';
 
 const ParticipantEventDetails = ({ eventData, moderator, onCopyLink }) => {
     if (!eventData || moderator) {
@@ -56,7 +57,7 @@ const ParticipantEventDetails = ({ eventData, moderator, onCopyLink }) => {
                         <div className="d-flex align-items-center meeting-link-url-blk">
                             <div className="meeting-link-url" title={link.url}>{link.url}</div>
                             <div className="meet-link-url-copy" onClick={() => onCopyLink(link.url)}>
-                                <img src={require("../../img/copy-url.svg")} alt="copy url" />
+                                <img src={CopyUrl} alt="copy url" />
                             </div>
                         </div>
                     </div>

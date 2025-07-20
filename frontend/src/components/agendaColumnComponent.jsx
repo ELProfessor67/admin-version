@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner';
 import moment from "moment";
 import ClipLoader from "react-spinners/ClipLoader";
+import NoData from '@/assets/img/no-data.svg';
 
 const AgendaColumn = ({
     fetchSessions,
@@ -69,7 +70,7 @@ const AgendaColumn = ({
             ) : (
                 <div className="d-flex align-items-center justify-content-center flex-column h-100">
                     <div className="no-resourses-lst">
-                        <img src={require("../../img/no-data.svg")} alt="no-data" />
+                        <img src={NoData} alt="no-data" />
                     </div>
                     <div className="empty-list-txt">No agenda available</div>
                 </div>

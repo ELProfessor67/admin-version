@@ -2,6 +2,7 @@ import React from 'react';
 import Loader from 'react-loader-spinner';
 import DatePicker from "react-datepicker";
 import ClipLoader from "react-spinners/ClipLoader";
+import NoData from '@/assets/img/no-data.svg';
 
 const UserStreamReportColumn = ({
     fetchUserReport,
@@ -98,7 +99,7 @@ const UserStreamReportColumn = ({
                             ) : (
                                 <div className="d-flex align-items-center justify-content-center flex-column h-100">
                                     <div className="no-resourses-lst">
-                                        <img src={require("../../img/no-data.svg")} alt="no-data" />
+                                        <img src={NoData} alt="no-data" />
                                     </div>
                                     <div className="empty-list-txt">No reports available</div>
                                 </div>
@@ -109,7 +110,7 @@ const UserStreamReportColumn = ({
             ) : (
                 <div className="d-flex align-items-center justify-content-center flex-column h-100">
                     <div className="no-resourses-lst">
-                        <img src={require("../../img/no-data.svg")} alt="no-data" />
+                        <img src={NoData} alt="no-data" />
                     </div>
                     <div className="empty-list-txt">No reports available</div>
                 </div>

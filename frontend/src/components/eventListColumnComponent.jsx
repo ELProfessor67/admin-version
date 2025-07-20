@@ -2,6 +2,10 @@ import React from 'react';
 import Loader from 'react-loader-spinner';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import NoData from '@/assets/img/no-data.svg';
+import Info from '@/assets/img/info.svg';
+import EditPencil from '@/assets/img/edit-pencil.svg';
+import Trash from '@/assets/img/trash.svg';
 
 const EventListColumn = ({
     eventData,
@@ -47,13 +51,13 @@ const EventListColumn = ({
                                                         <div className={"d-flex align-items-center justify-content-between meet-lst-container meeting_list meeting_" + event._id} key={key}>
                                                             <div className={"meeting-lst-title "} onClick={() => viewRooms(event._id, event.event_code, 1, event.repeatWeekly, true)} title={event.name}>{event.name}</div>
                                                             <div className="meeting-info-icon" onClick={() => showMeetingInfo(event)}>
-                                                                <img src={require("../../img/info.svg")} alt="info" />
+                                                                <img src={Info} alt="info" />
                                                             </div>
                                                             <div className="meeting-lst-edit-wrapper" onClick={() => editEvent(event._id)}>
-                                                                <img src={require("../../img/edit-pencil.svg")} alt="edit" />
+                                                                <img src={EditPencil} alt="edit" />
                                                             </div>
                                                             <div className="meeting-lst-delete-wrapper" onClick={() => deleteEvent(event._id, key, "current")}>
-                                                                <img src={require("../../img/trash.svg")} alt="delete" />
+                                                                <img src={Trash} alt="delete" />
                                                             </div>
                                                         </div>
                                                     ))}
@@ -73,13 +77,13 @@ const EventListColumn = ({
                                                             <div className={"d-flex align-items-center justify-content-between meet-lst-container meeting_list meeting_" + event._id} key={key}>
                                                                 <div className={"meeting-lst-title "} onClick={() => viewRooms(event._id, event.event_code, 0, event.repeatWeekly, true, archives)} title={event.name}>{event.name}</div>
                                                                 <div className="meeting-info-icon" onClick={() => showMeetingInfo(event)}>
-                                                                    <img src={require("../../img/info.svg")} alt="info" />
+                                                                    <img src={Info} alt="info" />
                                                                 </div>
                                                                 <div className="meeting-lst-edit-wrapper" onClick={() => editEvent(event._id)}>
-                                                                    <img src={require("../../img/edit-pencil.svg")} alt="edit" />
+                                                                    <img src={EditPencil} alt="edit" />
                                                                 </div>
                                                                 <div className="meeting-lst-delete-wrapper" onClick={() => deleteEvent(event._id, key, "past")}>
-                                                                    <img src={require("../../img/trash.svg")} alt="delete" />
+                                                                    <img src={Trash} alt="delete" />
                                                                 </div>
                                                             </div>
                                                         )
@@ -92,7 +96,7 @@ const EventListColumn = ({
                             ) : (
                                 <div style={{ "marginTop": "50px" }} className="d-flex align-items-center justify-content-center flex-column h-100">
                                     <div className="no-resourses-lst">
-                                        <img src={require("../../img/no-data.svg")} alt="no-data" />
+                                        <img src={NoData} alt="no-data" />
                                     </div>
                                     <div className="empty-list-txt">No Meetings are available</div>
                                 </div>

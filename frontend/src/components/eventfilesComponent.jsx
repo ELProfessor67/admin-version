@@ -9,6 +9,8 @@ import apiEventUploadService from "@/service/event/eventUploadService";
 import videoIcon from "@/assets/img/vdo_icon.png";
 import pptIcon from "@/assets/img/mspowerpoint.png";
 import trashIcon from "@/assets/img/trash.svg";
+import NoData from '@/assets/img/no-data.svg';
+import MsPowerPoint from '@/assets/img/mspowerpoint.png';
 
 const Eventfiles = (props) => {
     const [eventFiles, setEventFiles] = useState([]);
@@ -737,7 +739,7 @@ const Eventfiles = (props) => {
                                     {selectedFile !== "" && (
                                         <div className="d-flex align-items-center file-list-container">
                                             <div className="filetype-icon-wrapper filter-img">
-                                                <img src={require("../../img/vdo_icon.png")} alt="video-icon" />
+                                                <img src={videoIcon} alt="video-icon" />
                                             </div>
                                             <div className="filetype-desc">
                                                 <div className="d-flex filename-desc">
@@ -775,7 +777,7 @@ const Eventfiles = (props) => {
                                             return (
                                                 <div className="d-flex align-items-center file-list-container" key={key}>
                                                     <div className="filetype-icon-wrapper">
-                                                        <img src={require("../../img/vdo_icon.png")} alt="video-icon" />
+                                                        <img src={videoIcon} alt="video-icon" />
                                                     </div>
                                                     <div className="filetype-desc">
                                                         <div className="d-flex filename-desc">
@@ -784,7 +786,7 @@ const Eventfiles = (props) => {
                                                         </div>
                                                     </div>
                                                     <div className="file-delete-icon" onClick={() => deleteEventFile(eventfilesItem._id, key)}>
-                                                        <img src={require("../../img/trash.svg")} alt="trash-icon" />
+                                                        <img src={trashIcon} alt="trash-icon" />
                                                     </div>
                                                 </div>
                                             )
@@ -811,7 +813,7 @@ const Eventfiles = (props) => {
                                     {selectedFilePPT !== "" && (
                                         <div className="d-flex align-items-center file-list-container">
                                             <div className="filetype-icon-wrapper filter-img">
-                                                <img src={require("../../img/mspowerpoint.png")} alt="video-icon" />
+                                                <img src={MsPowerPoint} alt="video-icon" />
                                             </div>
                                             <div className="filetype-desc">
                                                 <div className="d-flex filename-desc">
@@ -847,7 +849,7 @@ const Eventfiles = (props) => {
                                             return (
                                                 <div className="d-flex align-items-center file-list-container" key={key}>
                                                     <div className="filetype-icon-wrapper">
-                                                        <img src={require("../../img/mspowerpoint.png")} alt="video-icon" />
+                                                        <img src={MsPowerPoint} alt="video-icon" />
                                                     </div>
                                                     <div className="filetype-desc">
                                                         <div className="d-flex filename-desc">
@@ -856,7 +858,7 @@ const Eventfiles = (props) => {
                                                         </div>
                                                     </div>
                                                     <div className="file-delete-icon" onClick={() => deleteEventFile(eventfilesItem._id, key)}>
-                                                        <img src={require("../../img/trash.svg")} alt="trash-icon" />
+                                                        <img src={trashIcon} alt="trash-icon" />
                                                     </div>
                                                 </div>
                                             )

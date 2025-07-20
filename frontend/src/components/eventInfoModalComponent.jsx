@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal } from 'reactstrap';
+import Information from '@/assets/img/information.svg';
+import CopyUrl from '@/assets/img/copy-url.svg';
 
 const EventInfoModal = ({ isOpen, toggle, eventInfo, onCopyLink }) => {
     if (!eventInfo) {
@@ -31,7 +33,7 @@ const EventInfoModal = ({ isOpen, toggle, eventInfo, onCopyLink }) => {
                 &times;
             </div>
             <div className="popup-info-icon-wrapper">
-                <img src={require("../../img/information.svg")} alt="info" />
+                <img src={Information} alt="info" />
             </div>
             <div className="popup-info-desc">
                 <div className="meet-schedul-caption meet-schedul-underline">{name}</div>
@@ -50,7 +52,7 @@ const EventInfoModal = ({ isOpen, toggle, eventInfo, onCopyLink }) => {
                                 <div className="d-flex align-items-center meeting-link-url-blk info-link">
                                     <div className="meeting-link-url" title={link.url}>{link.url}</div>
                                     <div className="meet-link-url-copy" onClick={() => onCopyLink(link.url)}>
-                                        <img src={require("../../img/copy-url.svg")} alt="copy url" />
+                                        <img src={CopyUrl} alt="copy url" />
                                     </div>
                                 </div>
                             </div>

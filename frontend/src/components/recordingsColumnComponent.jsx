@@ -1,4 +1,5 @@
 import React from 'react';
+import NoData from '@/assets/img/no-data.svg';
 
 const RecordingsColumn = ({ showEventRecordings, archives }) => {
     if (!showEventRecordings) {
@@ -24,7 +25,7 @@ const RecordingsColumn = ({ showEventRecordings, archives }) => {
                 ) : (
                     <div className="d-flex align-items-center justify-content-center flex-column h-100">
                         <div className="no-resourses-lst">
-                            <img src={require("../../img/no-data.svg")} alt="no-data" />
+                            <img src={NoData} alt="no-data" />
                         </div>
                         <div className="empty-list-txt">No recordings available</div>
                     </div>
