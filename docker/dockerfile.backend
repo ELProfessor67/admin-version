@@ -1,0 +1,25 @@
+# Dockerfile for Node.js Backend
+
+# Use Node.js 22 Alpine
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if available)
+COPY backend/package.json ./
+
+# Install dependencies
+RUN npm i --force
+
+# Copy backend source code
+COPY backend/ .
+
+# Create uploads directory if it doesn't exist
+RUN mkdir -p uploads
+
+# Expose port 8000
+EXPOSE 8000
+
+# Start the application
+CMD ["npm", "start"]

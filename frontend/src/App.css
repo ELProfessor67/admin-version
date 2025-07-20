@@ -1,0 +1,318 @@
+.interpreterAddMainDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.interpreterAddSubDiv {
+  background-color: #00c8d2;
+  padding: 14px 30px;
+  border-radius: 25px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins-Semibold;
+  white-space: nowrap;
+}
+
+.input_container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.validtxt_msg {
+  color: crimson;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.buttonSection {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.uploadFileType {
+  display: none;
+}
+
+.label-input-holder {
+  width: 150px;
+}
+
+.agendaAddMainDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.agendaAddSubDiv {
+  background-color: #00c8d2;
+  padding: 14px 30px;
+  border-radius: 25px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins-Semibold;
+  white-space: nowrap;
+}
+
+.eventAddMainDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+}
+
+.eventAddSubDiv {
+  background-color: #00c8d2;
+  padding: 14px 30px;
+  border-radius: 25px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins-Semibold;
+  white-space: nowrap;
+}
+
+.eventAddMainIMGDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.eventForm {
+  margin-top: 20px;
+}
+
+.eventCheckboxDiv {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.roomAddMainDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.roomAddSubDiv {
+  background-color: #00c8d2;
+  padding: 14px 30px;
+  border-radius: 25px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins-Semibold;
+  white-space: nowrap;
+}
+
+.languageAddMainDiv {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.languageAddSubDiv {
+  background-color: #00c8d2;
+  padding: 14px 30px;
+  border-radius: 25px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins-Semibold;
+  white-space: nowrap;
+}
+
+.meetingViewCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.meetingMainBlock {
+  width: 100%;
+  padding: 25px;
+}
+
+.meetingSubBlock {
+  margin: 20px;
+}
+
+.meetingHead {
+  padding: 25px;
+  width: 40%;
+  text-align: center;
+}
+
+.meetingSubHead {
+  width: 80%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.norecordsEvent {
+  text-align: center;
+  padding: 20px;
+  color: crimson;
+  font-size: 12px;
+}
+
+
+/* .btn-acn-blk {
+  box-shadow: 0px 0px 4px #0000003b;
+} */
+
+.material-del-btn:hover {
+  background-color: #00000012;
+}
+
+.avatar_initial_text {
+  font-size: 14px !important;
+}
+
+.upcom-meet {
+  color: #9085af
+}
+
+.rooms-lst-val {
+  max-width: 100% !important;
+}
+
+.agenda-block {
+  border-bottom: 1px solid #a9a9a929;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.info-modal-dialog .modal-content {
+  background-color: #1e1f20;
+  border-radius: 9px;
+  padding: 30px;
+}
+
+.info-modal-dialog {
+  max-width: 650px !important;
+  max-height: 200px;
+}
+
+.info-link {
+  justify-content: space-between !important;
+}
+
+.popup-info-icon-wrapper {
+  margin: 0px auto !important;
+}
+
+.info-link .meeting-link-url {
+  width: unset !important;
+}
+.MuiPaper-root {
+  background-color: unset !important;
+}
+.MuiAccordionSummary-expandIcon {
+  color: #FFF !important;
+}
+.MuiAccordionSummary-root.current-meetings {
+  color: #c1aadc !important;
+}
+.MuiAccordionSummary-root.past-meetings {
+  color: #de5349 !important;
+}
+.meet-lst-wrapper {
+  width: 100%;
+  padding: 10px 0;
+}
+.question-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 40px 0px 0px;
+}
+#exportPollsRecords {
+  padding: 30px;
+  margin-top: 30px;
+}
+
+.Event Details {
+  padding: 30px;
+}
+
+.eventDetails {
+  border-radius: 25px;
+  font-size: 20px;
+  margin-top: 3rem;
+}
+
+.pollTitle {
+  border-radius: 25px;
+  font-size: 20px;
+}
+
+#exportPollsRecords .Even_Details .logo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#exportPollsRecords .polls-ques-part {
+  font-size: 15px;
+  color: #000;
+}
+#exportPollsRecords .polls-choice-ans {
+  font-size: 15px;
+  color: #000;
+}
+#exportUserStreamRecords {
+  padding: 30px;
+  margin-top: 30px;
+}
+#exportUserStreamRecords .Even_Details .logo {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#exportUserStreamRecords .grid-table-head {
+  font-size: 15px;
+  color: #000;
+}
+#exportUserStreamRecords .grid-table-data {
+  font-size: 14px;
+  color: #000;
+}
+#exportUserStreamRecords .grid-table-user {
+  white-space: unset;
+}
+#exportUserStreamRecords .duration-statistics-tbl .grid-table-row {
+  grid-template-columns: 30% 15% 20% 20% 15%;
+}
+#exportUserStreamRecords .duration-statistics-tbl {
+  max-height: unset;
+}
+.top-10-margin{
+  margin-top: 10px !important;
+}
+@media only screen and (max-width:1500px) {
+  #exportUserStreamRecords .grid-table-data {
+      font-size: 10px;
+      padding: 10px;
+  }
+  .eventDetails {
+      font-size: 15px;
+  }
+}
+.polls-ques-whole-blk.hidescroll::-webkit-scrollbar {width: 0px; }
+/* .mat-file-name::first-letter {
+  text-transform: capitalize;
+} */
+
+.stream-info {
+  width: 640px;
+  padding: 20px;
+  border: 1px solid hsla(0, 0%, 66.3%, .16);
+}

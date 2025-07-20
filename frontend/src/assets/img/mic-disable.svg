@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 62 62" style="&#10;    fill: #fff;&#10;">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0;
+      }
+
+      .cls-2 {
+        opacity: 0.2;
+      }
+
+      .cls-3 {
+        fill: none;
+      }
+
+      .cls-4 {
+        filter: url(#Ellipse_18);
+      }
+    </style>
+    <filter id="Ellipse_18" x="0" y="0" width="62" height="62" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_293" data-name="Group 293" transform="translate(-1055 -690)">
+    <g id="Group_29" data-name="Group 29" class="cls-1" transform="translate(100 -1)">
+      <g class="cls-4" transform="matrix(1, 0, 0, 1, 955, 691)">
+        <circle id="Ellipse_18-2" data-name="Ellipse 18" cx="22" cy="22" r="22" transform="translate(9 6)"/>
+      </g>
+    </g>
+    <g id="baseline-mic_off-24px" class="cls-2" transform="translate(1072 705)">
+      <path id="Path_53" data-name="Path 53" class="cls-3" d="M0,0H24V24H0ZM0,0H24V24H0Z"/>
+      <path id="Path_54" data-name="Path 54" d="M23.211,13.368H21.063a6.46,6.46,0,0,1-.543,2.589l1.554,1.554a8.318,8.318,0,0,0,1.137-4.143Zm-5.078.215c0-.076.025-.139.025-.215V5.789a3.789,3.789,0,1,0-7.579,0v.227ZM4.6,3.263,3,4.867l7.592,7.592v.909a3.774,3.774,0,0,0,3.777,3.789,3.564,3.564,0,0,0,.821-.1l2.1,2.1a6.945,6.945,0,0,1-2.918.657,6.554,6.554,0,0,1-6.695-6.442H5.526a8.822,8.822,0,0,0,7.579,8.488V26h2.526V21.857A8.858,8.858,0,0,0,18.84,20.72L24.133,26l1.6-1.6Z"/>
+    </g>
+  </g>
+</svg>

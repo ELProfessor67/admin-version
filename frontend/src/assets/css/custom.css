@@ -1,0 +1,106 @@
+.lobbyfilelabal{
+    height: 15px !important;
+    color: #fff !important;
+    text-align: center;
+}
+.date-filter{
+    color: #fff;
+    font-size: 14px;
+}
+.hide{
+    display: none !important;
+}
+
+.csvbtn{
+    margin-left: 5px !important;
+}
+
+.csvbtn a{
+    color: #fff !important;
+    text-decoration: none;
+}
+.pickerlabal{
+    float: left;
+    color: #fff !important;float: left;
+    color: #fff !important;
+    font-size: 11px;
+    margin-top: 10px;
+}
+.additional-sevice-blk .checkbox-label{
+    line-height: 13px;
+    padding-top: 0px !important;
+}
+.full-width{
+    width: 100% !important;
+}
+.half-box{
+    width: 45%;
+    float: left;
+}
+.floatleft{
+    float: left !important;
+   
+}
+.margin-left-5{
+    margin-left: 5px !important;
+}
+.txt-area-desc{
+    height: 80px !important;
+}
+.absolute{
+    position: absolute !important;
+}
+.social-info ul li a img {
+    max-width: 30px;
+    width: 20px;
+    height: auto;
+}
+.interpre-blk .select-sess{
+    max-width: 188px;
+}
+.shadowtxt{
+    text-shadow: 1px 1px 5px black, 0 0 1em black, 0 0 0.2em black !important;
+}
+#loginwrap,#landingbg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 0;
+  }
+  .login-logo-wrapper{padding-top:5px !important;}
+  .landingbg::before {
+    content: '';
+    background: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.5;
+    z-index: -1;
+  }
+  .apiloader{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999999999;
+    background: #000;
+}
+.apiloader-spinner{
+    height: 0;
+    width: 0;
+    padding: 15px;
+    border: 6px solid #ceadf4;
+    border-right-color: #871fff;
+    border-radius: 22px;
+    -webkit-animation: rotate 1s infinite linear;
+    /* left, top and position just for the demo! */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.cover-img-del-blk:hover .cover-img-del-wrapper {
+    display: flex !important;
+}
+.cover-img-del-blk:hover {
+    opacity: .7 !important;
+}

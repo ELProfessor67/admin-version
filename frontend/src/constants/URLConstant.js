@@ -1,0 +1,17 @@
+export const REACT_APP_API_URL = "http://localhost:8000";
+export const REACT_APP_MEETING_LINK_SPEAKER = "http://localhost:5173/s-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_LEARNER = "http://localhost:5173/l-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_STREAMOUT = "http://localhost:5173/ls-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_SIGNLANGUAGE = "http://localhost:5173/ss-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_MODERATOR = "http://localhost:5173/m-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_SECONDARY_MODERATOR = "http://localhost:5173/a-rafikyconnect-";
+export const REACT_APP_MEETING_LINK_INTERPRETER = "http://localhost:5173/i-rafikyconnect-";
+export const REACT_APP_JWT_SECRET = "rafiky2020";
+export const REACT_APP_MEETINGCODE_LENGTH = 12;
+export const REACT_APP_API_IMAGE_URL = "https://rafikyapi.enfinlabs.com/";
+export const REACT_APP_URL = "http://localhost:5173/";
+export const REACT_APP_S3_URL = "https://d18k8f2t7eszvy.cloudfront.net/";
+export const REACT_APP_S3_UPLOADS_URL = "https://rafky-uploads.s3.eu-west-2.amazonaws.com/";
+export const REACT_APP_OPENTOK_KEY = "46760582";
+export const REACT_APP_OPENTOK_SECRET = "69f8a7805643bb116b451278cd782dc9dec95979";
+export const REACT_APP_MEETING_URL = "http://localhost:5174/";
