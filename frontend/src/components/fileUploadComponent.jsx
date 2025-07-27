@@ -35,7 +35,10 @@ const FileUpload = ({ onUpload, acceptedTypes, maxFileSize, label, eventID }) =>
         data.append('event_file', selectedFile);
 
         try {
-            const response = await Axios.post(`${process.env.REACT_APP_API_URL}/event/upload_file/${eventID}`, data, {
+            const response = await Axios.post(`${process.env.REACT_APP_API_URL}/event/upload-file/${eventID}`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     setProgress(percentCompleted);

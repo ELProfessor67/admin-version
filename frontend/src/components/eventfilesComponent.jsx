@@ -121,7 +121,10 @@ const Eventfiles = (props) => {
                     const data = new FormData();
                     data.append('event_file', selectedFileData);
                     try {
-                        Axioslib.post("event/upload_file/" + eventIDRef.current, data, {
+                        Axioslib.post("event/upload-file/" + eventIDRef.current, data, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
                             onUploadProgress: ProgressEvent => {
                                 setLoaded(ProgressEvent.loaded / ProgressEvent.total * 100);
                             },
@@ -292,7 +295,7 @@ const Eventfiles = (props) => {
 
     const saveEventFileDetails = (saveEventFiles, browsetype) => {
         if (saveEventFiles !== "" && saveEventFiles !== undefined) {
-            apiEventService.saveEventFileDetails(saveEventFiles).then((data) => {
+            apiEventUploadService.saveEventFileDetails(saveEventFiles).then((data) => {
                 if (data && data !== undefined && data !== null && data !== "" && data.status && data.status !== undefined && data.status !== null && data.status === 200) {
                     if (data.data.status !== "" && data.data.status !== undefined && data.data.status === "success") {
 
