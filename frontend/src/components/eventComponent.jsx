@@ -17,6 +17,9 @@ import { REACT_APP_API_URL } from "@/constants/URLConstant";
 const _REACT_APP_API_URL = REACT_APP_API_URL + "/";
 
 export default class Event extends React.PureComponent {
+
+    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -607,6 +610,7 @@ export default class Event extends React.PureComponent {
             if (this.state.coverImage[initialCount] !== undefined && this.state.coverImage[initialCount] !== null && this.state.coverImage[initialCount] !== "") {
                 let cidata = new FormData();
                 cidata.append('file', this.state.coverImage[initialCount]);
+              
 
                 apiEventUploadService.uploadCoverImg(eventID, cidata).then((data) => {
                     if (data && data !== undefined && data !== null && data !== "") {
@@ -692,7 +696,7 @@ export default class Event extends React.PureComponent {
         }
         if (this.state.lobbyResource !== "") {
             if (this.lobbyResourceLoaded === true) {
-                apiEventUploadService.uploadlobbyResource(eventID, this.state.lobbyResource).then((data1) => {
+                apiEventUploadService.uploadLobbyResource(eventID, this.state.lobbyResource).then((data1) => {
                     // this.setState({ disableBtn: false });
                     
                     if (data1 && data1 !== undefined && data1 !== null && data1 !== "") {

@@ -2,7 +2,12 @@ import api from '../api';
 import { Axioslib } from '../api';
 
 const uploadCoverImg = async (id, data) => {
-    return api.post(`event/uploadCoverImg/${id}`, data);
+   
+    return Axioslib.post(`event/upload-cover-image/${id}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
 };
 
 const uploadLogoImg = async (id, data) => {
