@@ -25,18 +25,33 @@ services:
       - "8000:8000"
     environment:
       - PORT=8000
-      # - MONGO_URI=mongodb://mongodb:27017/rafiky
+      - MONGO_URI=mongodb://rafiky-mongo:27017/rafiky
       # - ADMIN_EMAIL=admin@rafiky.com
       # - ADMIN_PASSWORD=Kobe824
       - NODE_ENV=production
     volumes:
       - backend-uploads:/app/uploads
+    depends_on:
+      - rafiky-mongo
     restart: unless-stopped
     networks:
       - rafiky-network
+  
+  rafiky-mongo:
+    image: mongo:4.4.3
+    hostname: rafiky-mongo
+    restart: always
+    volumes:
+      - /data/rafiky/mongo:/data/db
+    networks:
+      - rafiky-network
+    ports:
+      - "27017:27017"
 
 volumes:
   backend-uploads:
+    driver: local
+  mongo-data:
     driver: local
 
 networks:
