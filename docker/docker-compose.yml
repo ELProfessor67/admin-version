@@ -2,66 +2,43 @@ version: '3.8'
 
 services:
   # Frontend Service
-  frontend:
+  admin-frontend:
     build:
       context: ../
       dockerfile: docker/dockerfile.frontend
-    container_name: rafiky-frontend
+    container_name: rafiky-admin-frontend
     ports:
-      - "5173:80"
+      - "5173:5173"
     depends_on:
-      - backend
+      - admin-backend
     restart: unless-stopped
     networks:
       - rafiky-network
 
   # Backend Service
-  backend:
+  admin-backend:
     build:
       context: ../
       dockerfile: docker/dockerfile.backend
-    container_name: rafiky-backend
+    container_name: rafiky-admin-backend
     ports:
       - "8000:8000"
     environment:
       - PORT=8000
-      - MONGO_URI=mongodb://mongodb:27017/rafiky
-      - ADMIN_EMAIL=admin@rafiky.com
-      - ADMIN_PASSWORD=Kobe824
+      # - MONGO_URI=mongodb://mongodb:27017/rafiky
+      # - ADMIN_EMAIL=admin@rafiky.com
+      # - ADMIN_PASSWORD=Kobe824
       - NODE_ENV=production
     volumes:
       - backend-uploads:/app/uploads
-    depends_on:
-      - mongodb
     restart: unless-stopped
     networks:
       - rafiky-network
 
-  # MongoDB Service
-  mongodb:
-    image: mongo:7-jammy
-    container_name: rafiky-mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_DATABASE=rafiky
-    volumes:
-      - mongodb-data:/data/db
-      - mongodb-config:/data/configdb
-    restart: unless-stopped
-    networks:
-      - rafiky-network
-
-# Volumes for persistent data
 volumes:
-  mongodb-data:
-    driver: local
-  mongodb-config:
-    driver: local
   backend-uploads:
     driver: local
 
-# Network for service communication
 networks:
   rafiky-network:
     driver: bridge
