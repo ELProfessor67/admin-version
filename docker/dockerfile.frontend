@@ -19,7 +19,7 @@ COPY frontend/ .
 RUN npm run build
 
 
-EXPOSE 5173
+EXPOSE 3000
 
 # Start the application
-CMD ["npm", "run", "preview", "--", "--port", "5173", "--host", "0.0.0.0"]
+CMD ["npm", "run", "preview", "--", "--port", "3000", "--host", "0.0.0.0"]
