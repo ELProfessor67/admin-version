@@ -1,0 +1,913 @@
+{
+  "api_endpoints": {
+    "pusher": {
+      "base_path": "/api/v1/pusher",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/pusher/send",
+          "name": "Send Pusher Message",
+          "description": "Send real-time message through Pusher service",
+          "required_params": {
+            "body": {
+              "channel": "string - Channel name is required"
+            },
+            "general": "Request body is required"
+          }
+        }
+      ]
+    },
+    "events": {
+      "base_path": "/api/v1/event",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-session-details",
+          "name": "Get Session Details",
+          "description": "Retrieve session details for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/save-event-end-time",
+          "name": "Save Event End Time",
+          "description": "Save the end time for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-room-property",
+          "name": "Get Room Property",
+          "description": "Retrieve room properties for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/save-room-property",
+          "name": "Save Room Property",
+          "description": "Save room properties for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/save-event",
+          "name": "Save Event",
+          "description": "Create and save a new event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/update-event",
+          "name": "Update Event",
+          "description": "Update existing event details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-all-events",
+          "name": "Get All Events",
+          "description": "Retrieve list of all events",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-room-events",
+          "name": "Get Room Events",
+          "description": "Retrieve events for a specific room",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-event-agenda",
+          "name": "Get Event Agenda",
+          "description": "Retrieve agenda for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/event/check-event-code/:id",
+          "name": "Check Event Code",
+          "description": "Validate event code by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-cover-image/:id",
+          "name": "Upload Cover Image",
+          "description": "Upload cover image for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload is required - coverimage field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-logo/:id",
+          "name": "Upload Logo",
+          "description": "Upload logo image for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload is required - logoimage field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-lobby-resource/:id",
+          "name": "Upload Lobby Resource",
+          "description": "Upload lobby resource files for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload optional - lobbyresource field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-login-page-bg/:id",
+          "name": "Upload Login Page Background",
+          "description": "Upload background image for login page",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload optional - loginpagebg field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-landing-page-bg/:id",
+          "name": "Upload Landing Page Background",
+          "description": "Upload background image for landing page",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload optional - landingpagebg field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-conference-page-bg/:id",
+          "name": "Upload Conference Page Background",
+          "description": "Upload background image for conference page",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload optional - landingpagebg field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-event-by-id/:id",
+          "name": "Get Event By ID",
+          "description": "Retrieve event details by event ID",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/check-email-id",
+          "name": "Check Email ID",
+          "description": "Validate email ID for event registration",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/check-event-user-details",
+          "name": "Check Event User Details",
+          "description": "Check if event user details exist",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-room-details",
+          "name": "Get Room Details",
+          "description": "Retrieve detailed room information",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-session",
+          "name": "Get Session",
+          "description": "Retrieve session information",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/download-user-stream-report/:eventId",
+          "name": "Download User Stream Report",
+          "description": "Download user streaming report for an event",
+          "required_params": {
+            "params": {
+              "eventId": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/get-user-stream-report",
+          "name": "Get User Stream Report",
+          "description": "Retrieve user streaming report",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/event/delete-event/:id",
+          "name": "Delete Event",
+          "description": "Delete an event by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/event/delete-user-event/:id",
+          "name": "Delete User Event",
+          "description": "Delete user from an event",
+          "required_params": {
+            "params": {
+              "id": "string - User ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/start-archived/:id",
+          "name": "Start Archive",
+          "description": "Start archiving process for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/stop-archived/:id",
+          "name": "Stop Archive",
+          "description": "Stop archiving process for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-file/:id",
+          "name": "Upload File",
+          "description": "Upload file for an event",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/save-file-event",
+          "name": "Save File Event",
+          "description": "Save file information for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/file-event-list",
+          "name": "File Event List",
+          "description": "Get list of files for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/delete-event-file",
+          "name": "Delete Event File",
+          "description": "Delete a file from an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/update-selected-language",
+          "name": "Update Selected Language",
+          "description": "Update the selected language for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/update-conversation-status",
+          "name": "Update Conversion Status",
+          "description": "Update conversation status for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/event-details",
+          "name": "Event Details",
+          "description": "Get detailed event information",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/save-event-user",
+          "name": "Save Event User",
+          "description": "Save user information for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/upload-event-user",
+          "name": "Upload Event User",
+          "description": "Upload user data for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/event/update-user-event-detail",
+          "name": "Update User Event Detail",
+          "description": "Update user details for an event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        }
+      ]
+    },
+    "chat": {
+      "base_path": "/api/v1/chat",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/chat/save",
+          "name": "Save Chat",
+          "description": "Save chat message",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/chat/get",
+          "name": "Get Chat",
+          "description": "Retrieve chat messages",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/chat/delete",
+          "name": "Delete Chat",
+          "description": "Delete a chat message",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/chat/delete-history",
+          "name": "Delete Chat History",
+          "description": "Delete entire chat history",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        }
+      ]
+    },
+    "user": {
+      "base_path": "/api/v1/user",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/user/check-emial-exist",
+          "name": "Check Email Exist",
+          "description": "Check if email already exists in the system",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/user/login-with-password",
+          "name": "Login With Password",
+          "description": "User login with email and password",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/user/decode-token",
+          "name": "Decode Token",
+          "description": "Decode authentication token",
+          "required_params": {
+            "query": {
+              "token": "string - Authentication token is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/user/encode-token",
+          "name": "Encode Token",
+          "description": "Generate authentication token",
+          "required_params": {
+            "general": "Request body with user details is required"
+          }
+        }
+      ]
+    },
+    "room": {
+      "base_path": "/api/v1/room",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/room/get-room-by-event-id",
+          "name": "Get Room By Event ID",
+          "description": "Retrieve rooms for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/room/add",
+          "name": "Add Room",
+          "description": "Create a new room",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/room/update",
+          "name": "Update Room",
+          "description": "Update room details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/room/delete/:id",
+          "name": "Delete Room",
+          "description": "Delete a room by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Room ID is required"
+            }
+          }
+        }
+      ]
+    },
+    "speaker": {
+      "base_path": "/api/v1/speaker",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/speaker/save-speaker/:id",
+          "name": "Save Speaker",
+          "description": "Save speaker details with profile image upload",
+          "required_params": {
+            "params": {
+              "id": "string - Event User ID is required"
+            },
+            "body": {
+              "name": "string - Speaker name is required (for new speaker)",
+              "role": "string - Speaker role is required (for new speaker)",
+              "speaker_id": "string - Speaker ID (for updating existing speaker)"
+            },
+            "file": "File upload optional - user_logo field"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/speaker/get-speaker-credentials",
+          "name": "Get Speaker Credentials",
+          "description": "Retrieve speaker credentials",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/speaker/delete-speaker-credentials",
+          "name": "Delete Speaker Credentials",
+          "description": "Delete speaker credentials",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/speaker/update-speaker-status/:id",
+          "name": "Update Speaker Status",
+          "description": "Update speaker status by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Event User ID is required"
+            },
+            "body": {
+              "speaker_id": "string - Speaker ID is required",
+              "status": "string - Status is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/speaker/update-speaker-credentials",
+          "name": "Update Speaker Credentials",
+          "description": "Update speaker credentials",
+          "required_params": {
+            "body": {
+              "speaker_id": "string - Speaker ID is required for update"
+            },
+            "general": "Request body is required"
+          }
+        }
+      ]
+    },
+    "interpreter": {
+      "base_path": "/api/v1/interpreter",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/get-event-by-id",
+          "name": "Get Interpreters By Event ID",
+          "description": "Retrieve interpreters for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/get-material-by-id",
+          "name": "Get Event Materials By ID",
+          "description": "Retrieve event materials by ID",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/interpreter/get-language",
+          "name": "Get Language",
+          "description": "Retrieve available languages for interpretation",
+          "required_params": {
+            "general": "No specific parameters required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/add-assigment",
+          "name": "Add Assignment",
+          "description": "Add interpreter assignment",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/update-assignment",
+          "name": "Update Assignment",
+          "description": "Update interpreter assignment",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/interpreter/get-assigment",
+          "name": "Get Assignment",
+          "description": "Retrieve interpreter assignments",
+          "required_params": {
+            "general": "No specific parameters required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/interpreter/delete-assigment/:id",
+          "name": "Delete Assignment",
+          "description": "Delete interpreter assignment by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Assignment ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/add-event-material",
+          "name": "Add Event Material",
+          "description": "Add material for event interpretation",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/interpreter/get-material",
+          "name": "Get Material",
+          "description": "Retrieve interpretation materials",
+          "required_params": {
+            "general": "No specific parameters required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/interpreter/delete-event-materaial/:id",
+          "name": "Delete Event Material",
+          "description": "Delete event material by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Event material ID is required"
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/interpreter/upload-event-material/:id",
+          "name": "Upload Event Material",
+          "description": "Upload material file for event interpretation",
+          "required_params": {
+            "params": {
+              "id": "string - Event ID is required"
+            },
+            "file": "File upload is required - eventMaterial field"
+          }
+        }
+      ]
+    },
+    "language": {
+      "base_path": "/api/v1/language",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/language/get-by-event-id",
+          "name": "Get Languages By Event ID",
+          "description": "Retrieve languages for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/language/add",
+          "name": "Add Language",
+          "description": "Add a new language option",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/language/udapte",
+          "name": "Update Language",
+          "description": "Update language details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/language/delete/:id",
+          "name": "Delete Language",
+          "description": "Delete language option by ID",
+          "required_params": {
+            "params": {
+              "id": "string - Language ID is required"
+            }
+          }
+        }
+      ]
+    },
+    "session": {
+      "base_path": "/api/v1/session",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/session/get-by-event-id",
+          "name": "Get Sessions By Event ID",
+          "description": "Retrieve sessions for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/session/add-agenda",
+          "name": "Add Agenda",
+          "description": "Add agenda item to session",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/session/update-agenda",
+          "name": "Update Agenda",
+          "description": "Update agenda item details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "GET",
+          "url": "/api/v1/session/get-agenda",
+          "name": "Get Agenda",
+          "description": "Retrieve agenda items",
+          "required_params": {
+            "general": "No specific parameters required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/session/delete-agenda",
+          "name": "Delete Agenda",
+          "description": "Delete agenda item",
+          "required_params": {
+            "params": {
+              "id": "string - Agenda ID is required"
+            }
+          }
+        }
+      ]
+    },
+    "poll": {
+      "base_path": "/api/v1/poll",
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/add-question",
+          "name": "Save Answer / Add Question",
+          "description": "Save poll answer or add poll question (duplicate route - handles both poll responses and questions)",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/get-question",
+          "name": "Get Question List",
+          "description": "Retrieve list of poll questions",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/get-report",
+          "name": "Get Report",
+          "description": "Get poll response report",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/poll/delete-question",
+          "name": "Delete Poll Question",
+          "description": "Delete a poll question",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/update-question",
+          "name": "Update Poll Question",
+          "description": "Update poll question details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/create",
+          "name": "Create Poll",
+          "description": "Create a new poll",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/get-poll-report",
+          "name": "Get Poll Report",
+          "description": "Retrieve detailed poll report",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/get-poll",
+          "name": "Get Poll List",
+          "description": "Retrieve list of polls",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/get-poll-for-event",
+          "name": "Get Poll For Event",
+          "description": "Retrieve polls for a specific event",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "DELETE",
+          "url": "/api/v1/poll/delete",
+          "name": "Delete Poll",
+          "description": "Delete a poll",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/api/v1/poll/update",
+          "name": "Update Poll",
+          "description": "Update poll details",
+          "required_params": {
+            "general": "Request body is required"
+          }
+        }
+      ]
+    }
+  },
+  "parameter_types": {
+    "body": "Request body parameters - sent in POST request body as JSON",
+    "params": "URL path parameters - included in the URL path (e.g., /event/:id)",
+    "query": "Query string parameters - appended to URL (e.g., ?token=abc123)",
+    "file": "File upload parameters - sent as multipart/form-data",
+    "general": "General requirements and validation rules"
+  },
+  "notes": {
+    "authentication": "Most endpoints may require authentication tokens",
+    "file_uploads": "File upload endpoints use multipart/form-data with specific field names",
+    "content_type": "POST endpoints typically expect application/json content-type for body data",
+    "base_url": "All endpoints are prefixed with /api/v1/",
+    "error_handling": "All endpoints return standardized error responses with status codes"
+  },
+  "total_endpoints": 90,
+  "last_updated": "2025-01-27"
+}

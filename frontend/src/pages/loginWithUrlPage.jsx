@@ -146,8 +146,9 @@ const LoginWithUrlPage = (props) => {
                             
                             if (data.data.data[0] !== undefined) {
                                 if (data.data.data[0].login_page_bg !== undefined && data.data.data[0].login_page_bg !== null && data.data.data[0].login_page_bg !== "") {
+                                    const loginPageBg = REACT_APP_API_IMAGE_URL+data.data.data[0].login_page_bg?.replace(/\\/g, '/');
                                     if(document.getElementById("loginwrap")){
-                                        document.getElementById("loginwrap").style.backgroundImage = "url('"+REACT_APP_API_IMAGE_URL+data.data.data[0].login_page_bg+"')";
+                                        document.getElementById("loginwrap").style.backgroundImage = `url('${loginPageBg}')`;
                                         document.getElementById("loginwrap").style.backgroundPosition = "center";
                                         document.getElementById("loginwrap").style.backgroundRepeat = " no-repeat";
                                         document.getElementById("loginwrap").style.backgroundSize = "cover";
