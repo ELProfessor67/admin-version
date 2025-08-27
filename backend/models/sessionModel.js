@@ -20,7 +20,8 @@ const sessionScheme = new mongoose.Schema({
     },
     session_id: { type: String, default: '' },
     publisher_token: { type: String, default: '' },
-    listener_token: { type: String, default: '' }
+    listener_token: { type: String, default: '' },
+    captions_id: { type: String, default: undefined }
 }, {
     timestamps: true
 });

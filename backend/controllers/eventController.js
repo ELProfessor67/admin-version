@@ -1,6 +1,6 @@
 import catchAsyncError from "@/middlewares/catchAsyncError.js";
 import ErrorHandler from "@/utils/ErrorHandler";
-import { getRoomProperty, getSessionDetails, saveEventEndTime, saveRoomProperty, saveEvent, updateEvent, getAllEvents, getEventRooms, getEventAgenda, checkEventCode, getEventByID, checkEventUserDetailsExists, getRoomDetails, getSessions, downloadStreamReport, getUserStreamReport, deleteEventUser, startArchive, stopArchive, uploadFile, saveEventFile, eventFilesList, deleteEventFile, updateSelectedLanguage, updateConversionStatus, eventDetails, saveEventUserDetails, uploadEventUsers, updateEventUserDetails, checkEmailID, deleteEvent, saveEventUser } from "@/services/eventService.js";
+import { getRoomProperty, getSessionDetails, saveEventEndTime, saveRoomProperty, saveEvent, updateEvent, getAllEvents, getEventRooms, getEventAgenda, checkEventCode, getEventByID, checkEventUserDetailsExists, getRoomDetails, getSessions, downloadStreamReport, getUserStreamReport, deleteEventUser, startArchive, stopArchive, uploadFile, saveEventFile, eventFilesList, deleteEventFile, updateSelectedLanguage, updateConversionStatus, eventDetails, saveEventUserDetails, uploadEventUsers, updateEventUserDetails, checkEmailID, deleteEvent, saveEventUser, toggleCaption } from "@/services/eventService.js";
 
 export const geSessionController = catchAsyncError(async (req, res, next) => {
     const { body } = req;
@@ -10,6 +10,18 @@ export const geSessionController = catchAsyncError(async (req, res, next) => {
     const response = await getSessionDetails(body);
     if (!response) {
         return next(new ErrorHandler("Failed to get session details", 500));
+    }
+    return res.status(200).json(response);
+});
+
+export const toggleCaptionController = catchAsyncError(async (req, res, next) => {
+    const { body } = req;
+    if (!body || Object.keys(body).length === 0) {
+        return next(new ErrorHandler("Request body is required", 400));
+    }
+    const response = await toggleCaption(body);
+    if (!response) {
+        return next(new ErrorHandler("Failed to toggle caption", 500));
     }
     return res.status(200).json(response);
 });

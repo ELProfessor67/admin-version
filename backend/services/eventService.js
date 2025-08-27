@@ -21,6 +21,7 @@ import { fileUploadMiddleware } from "@/middlewares/multerMiddleware";
 import { createErrorResponse } from "@/processor/events/createErrorResponseProcessor";
 import { processFileUpload } from "@/processor/events/mediaUploadProcessor";
 import { removeEventUsers } from "@/processor/events/removeEventUsersProcessor";
+import { parseArgs } from "util";
 const __dirname = path.resolve();
 
 export const checkEventUserDetailsExists = async (params) => {
@@ -459,6 +460,39 @@ export const getSessionDetails = async (params) => {
         };
         response.publisher_token = opentok.generateToken(session.session_id, tokenOptions);
 
+        //start caption
+        // after you build `response` (and generate a moderator token)
+        // const captionsToken = response.publisher_token; // you set role:'moderator' above
+
+        // // Only start if not already running (optional but recommended)
+        // if (!session.captions_id) {
+        //     const options = {
+        //         languageCode: 'hi-IN',
+        //         partialCaptions: true,
+        //         maxDuration: 4 * 60 * 60
+        //     };
+
+        //     opentok.startCaptions(
+        //         session.session_id,
+        //         captionsToken,
+        //         options,
+        //         async (err, res) => {
+        //         if (err) {
+        //             console.error('startCaptions failed:', err);
+        //             return; // don’t block the rest of the response
+        //         }
+        //         // Persist the captionsId so you can stop later
+        //         session.captions_id = res;
+        //         await session.save();
+        //         console.log('Captions started:', res);
+        //         }
+        //     );
+        // }
+
+
+
+
+
         if (params.role === 'listener') {
             const listenerTokenOptions = {
                 role: 'subscriber',
@@ -525,6 +559,7 @@ export const getSessionDetails = async (params) => {
             response.interpreter_two_way_allowed = userInterpreter.two_way;
             response.show_interpreter_video = userInterpreter.show_video || false;
         }
+        response.captions_id = session.captions_id;
 
         return {
             status: "success",
@@ -538,6 +573,94 @@ export const getSessionDetails = async (params) => {
         };
     }
 };
+
+export const toggleCaption = async (params) => {
+    try {
+        if (!params.session_id || !params.status) {
+            return {
+                status: "error",
+                error: "Invalid parameters",
+                message: "Session ID and status are required"
+            };
+        }
+
+        if (!params.token && params.status === "start") {
+            return {
+                status: "error",
+                error: "Invalid parameters",
+                message: "Token is required"
+            };
+        }
+
+        if (!params.language && params.status === "start") {
+            return {
+                status: "error",
+                error: "Invalid parameters",
+                message: "Language is required"
+            };
+        }
+
+        const session = await SessionModel.findById(params.session_id).exec();
+        if (!session) {
+            return {
+                status: "error",
+                error: "Session not found",
+                message: "Session not found"
+            };
+        }
+
+        if(params.status === "start") {
+            if (!session.captions_id) {
+                const options = {
+                    languageCode: params.language,
+                    partialCaptions: true,
+                    maxDuration: 4 * 60 * 60
+                };
+
+                opentok.startCaptions(
+                    session.session_id,
+                    params.token,
+                    options,
+                    async (err, res) => {
+                        if (err) {
+                            console.error('startCaptions failed:', err);
+                            return; // don’t block the rest of the response
+                        }
+                        // Persist the captionsId so you can stop later
+                        session.captions_id = res;
+                        await session.save();
+                        console.log('Captions started:', res);
+                    }
+                    );
+            }
+        }else{
+            if(session.captions_id){
+                opentok.stopCaptions(session.captions_id, async (err) => {
+                    if (err) {
+                      console.error("stopCaptions failed:", err);
+                    } else {
+                      console.log("Captions stopped successfully");
+                    }
+                    session.captions_id = null;
+                    await session.save();
+                  });
+
+            }
+        }
+
+        return {    
+            status: "success",
+            message: `${params.status === "start" ? "Captions started" : "Captions stopped"}`,
+            data: session.captions_id
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            error: error,
+            message: "Failed to start captions"
+        };
+    }
+}
 
 export const getEventByID = async (id) => {
     try {
