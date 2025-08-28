@@ -18,6 +18,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/uploads', express.static('uploads'));
+app.use('/', express.static('public'));
 app.use('/api/v1',router);
 app.use(errorMiddleware);
 

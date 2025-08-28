@@ -31,7 +31,15 @@ const createAdmin = async () => {
 const createLanguages = async () => {
     const languages = await LanguageModel.find();
     if (languages.length) {
-        return;
+        if(languages[0].flag){
+            return;
+        }else{
+            languages.forEach(async (language) => {
+                const getFlagLanguage = LANGUAGES.find(l => l.language === language.language);
+                language.flag = getFlagLanguage.flag;
+                await language.save();
+            });
+        }
     }
     await LanguageModel.insertMany(LANGUAGES);
     console.log("Languages added", LANGUAGES.length)

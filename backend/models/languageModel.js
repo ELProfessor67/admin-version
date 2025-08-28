@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 const languageScheme = new mongoose.Schema({
-    language: { type: String, default: '' }
+    language: { type: String, default: '' },
+    flag: { type: String, default: '' }
 }, {
     timestamps: true
 });

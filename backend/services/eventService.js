@@ -7,6 +7,7 @@ import EventModel from "@/models/eventModel.js";
 import RoomModel from "@/models/roomModel.js";
 import InterpreterModel from "@/models/interpreterModel.js";
 import LanguageModel from "@/models/languageModel.js";
+import EventLanguageModel from "@/models/eventLanguageModel.js";
 import EventFilesModel from "@/models/eventFilesModel.js";
 import path from "path";
 import fs from "fs";
@@ -1300,7 +1301,7 @@ export const updateConversionStatus = async (params) => {
 
 export const eventDetails = async (params) => {
     try {
-        if (params.event_code !== undefined && params.event_code !== null && params.user_name !== "" && params.user_name !== undefined && params.user_name !== null && params.user_name !== "" && params.user_email !== undefined && params.user_email !== null && params.user_email !== "") {
+        if (params.event_code && params.user_name && params.user_email) {
 
             let eventFilter = {
                 "event_code": { $eq: params.event_code },
@@ -1353,10 +1354,12 @@ export const eventDetails = async (params) => {
                     languages: [],
                     rooms: []
                 }
+                
                 let eventLanguages = []
                 let languageData = [];
                 try {
-                    languageData = await LanguageModel.find({ "event_id": { $eq: event_id } })
+                    languageData = await EventLanguageModel.find({ "event_id": { $eq: event_id } })
+                        .populate('language_id')
                         .sort({ createdAt: 'asc' }).exec();
                 } catch (e) {
                     return {
@@ -1364,6 +1367,7 @@ export const eventDetails = async (params) => {
                         data: eventResponse
                     }
                 }
+
 
                 if (languageData.length > 0) {
                     for (var ld = 0; ld < languageData.length; ld++) {
@@ -1499,12 +1503,7 @@ export const eventDetails = async (params) => {
 
 export const saveEventUser = async (params) => {
     try {
-        if (params.name !== undefined && params.name !== null && params.name !== "" && 
-            params.email !== undefined && params.email !== null && params.email !== "" && 
-            params.role !== undefined && params.role !== null && params.role !== "" && 
-            params.event_id !== undefined && params.event_id !== null && params.event_id !== "" 
-            // && params.language !== undefined && params.language !== null && params.language !== ""
-        ) {
+        if (params.name && params.email && params.role && params.event_id) {
             
 
             let startTime = moment().format();

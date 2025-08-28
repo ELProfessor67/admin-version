@@ -9,6 +9,7 @@ export const getEventLanguages = async (params) => {
     try {
         const data = await EventLanguageModel.find({ "event_id": params.event_id })
             .sort({ createdAt: 'asc' })
+            .populate('language_id')
             .exec();
             
         return {
@@ -96,7 +97,7 @@ export const updateLanguage = async (params) => {
  * Get all languages
  */
 export const getLanguage = async () => {
-    return await EventLanguageModel.find();
+    return await EventLanguageModel.find().populate('language_id');
 };
 
 /**
