@@ -1374,6 +1374,7 @@ export const eventDetails = async (params) => {
                         eventLanguages.push({
                             name: languageData[ld].title,
                             id: languageData[ld].id,
+                            flag: languageData[ld].language_id?.flag || null
                         })
 
                         if (languageData.length === (ld + 1)) {
