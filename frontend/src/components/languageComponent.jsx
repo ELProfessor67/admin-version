@@ -214,7 +214,7 @@ export default function Language(props) {
   const renderedLanguageRows = useMemo(
     () =>
       languageDetails.map((lng, idx) => {
-        const label = languages.find((l) => l.value === lng.language_id)?.label || "";
+        const label = languages.find((l) => l.value === (lng.language_id?._id || lng.language_id))?.label || "";
         return (
           <div className="d-flex lang-row" key={idx}>
             <div className="lang-col-wrapper">

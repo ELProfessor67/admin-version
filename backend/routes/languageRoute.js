@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.route('/get-by-event-id').post(getLanguagesByEventIDController);
 router.route('/add').post(addLanguageController);
-router.route('/udapte').post(updateLanguageController);
-router.route('/delete/:id').post(deleteLanguageController);
+router.route('/update').post(updateLanguageController);
+router.route('/delete/:id').delete(deleteLanguageController);
 
 export default router;
