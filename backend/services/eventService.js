@@ -520,23 +520,42 @@ export const getSessionDetails = async (params) => {
 
         // Get interpreting languages
         const interpreters = await InterpreterModel.find({ "session": params.session_id })
-            .populate('from')
-            .populate('to')
+            // .populate('from')
+            // .populate('to')
+            .populate({
+                path: 'from',
+                populate: {
+                    path: 'language_id',
+                    select: 'language flag',
+                }
+            }).populate({
+                path: 'to',
+                populate: {
+                    path: 'language_id',
+                    select: 'language flag',
+                }
+            })
             .exec();
 
         let interpretingLanguages = [];
+        let interpretingLanguagesFlag = {}
+        
         if (interpreters?.length > 0) {
             interpreters.forEach(interpreter => {
                 if (interpreter.from?.title && !interpretingLanguages.includes(interpreter.from.title)) {
                     interpretingLanguages.push(interpreter.from.title);
+                    interpretingLanguagesFlag[interpreter.from.title] = interpreter.from.flag;
+                    interpretingLanguagesFlag[interpreter.from.title] = interpreter.from.language_id?.flag;
                 }
                 if (interpreter.to?.title && !interpretingLanguages.includes(interpreter.to.title)) {
                     interpretingLanguages.push(interpreter.to.title);
+                    interpretingLanguagesFlag[interpreter.to.title] = interpreter.to.flag;
+                    interpretingLanguagesFlag[interpreter.to.title] = interpreter.to.language_id?.flag;
                 }
             });
         }
         response.interpreting_languages = interpretingLanguages;
-
+        response.interpreting_languages_flag = interpretingLanguagesFlag;
         // Handle interpreter-specific data
         if (params.role === 'interpreter') {
             const userInterpreter = await InterpreterModel.findOne({

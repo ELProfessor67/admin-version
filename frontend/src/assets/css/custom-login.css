@@ -197,6 +197,8 @@
   .form-list .form-label {
     font-size: 14px;
     line-height: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
   }
   .form-list .input-wrap .icon {
     position: absolute;
@@ -211,22 +213,24 @@
  
   .form-list .input-wrap .icon svg {
       width: 16px;
-    fill: #c1b0bf;
+    fill: #BC9EC9;
   }
 .form-list .input-wrap input {
     padding-left: 40px;
     border-radius: 45px;
-    border: 1px solid #f6e1e1;
+    border: 1px solid #E5E7EB;
     font-size: 14px;
     letter-spacing: .3px;
     height: 40px;
     /* background: transparent; */
     box-shadow: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 }
 .form-list .input-wrap input:active,
 .form-list .input-wrap input:hover,
 .form-list .input-wrap input:focus {
-    border: 1px solid #f6e1e1;
+    border: 1px solid #533A84;
     box-shadow: none;
 }
   .form-list .input-wrap label {
@@ -257,7 +261,8 @@
 .form-inner button {
 
     /* background: linear-gradient(54deg,rgba(107,63,192,.97),rgba(48,48,23,.97)); */
-    background: linear-gradient(54deg,rgba(83,71,108,.97),rgba(46,16,120,.97));
+    /* background: linear-gradient(54deg,rgba(83,71,108,.97),rgba(46,16,120,.97)); */
+    background: #533A84;
     height: 47px;
     margin: 2pc auto;
     color: #fff;
@@ -274,6 +279,7 @@
 .form-inner button:focus {
     border: none;
     box-shadow: none;
+    background: #533A84 !important;
 }
 .forgottext {
     color: #df65ff;

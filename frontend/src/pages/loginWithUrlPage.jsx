@@ -4,11 +4,13 @@ import apiEventService from "@/service/event/eventService";
 import helper from '@/utils/helper';
 import api from "@/service/language/languageService";
 import Select from "react-select";
-import logoIMAGEWITHTEXT from "@/assets/img/logo-2-01.png";
+// import logoIMAGEWITHTEXT from "@/assets/img/logo-2-01.png";
+import logoIMAGEWITHTEXT from "@/assets/img/lingo-you-logo.svg";
 import { Toast } from "@/components/toastComponent";
 import { encodeToken } from "@/service/auth/authService";
 import { REACT_APP_API_IMAGE_URL, REACT_APP_MEETINGCODE_LENGTH } from "@/constants/URLConstant";
 import apiEventUserService from "@/service/event/eventUserService"
+import { REACT_APP_API_URL } from "@/constants/URLConstant";
 
 const LoginWithUrlPage = (props) => {
     const [eventList, setEventList] = useState([]);
@@ -81,7 +83,7 @@ const LoginWithUrlPage = (props) => {
 
                             setEventList(data.data.data);
                             setPasswordEnabled(passwordEnabledValue);
-                            
+
                             let getSpeakerDetails = {
                                 event_id: data.data.data[0]._id,
                                 speaker_status: true,
@@ -102,7 +104,7 @@ const LoginWithUrlPage = (props) => {
                                     }
                                 }
                             });
-                            
+
                             let getListnerDetails = {
                                 event_id: data.data.data[0]._id,
                                 listener_status: true,
@@ -123,9 +125,9 @@ const LoginWithUrlPage = (props) => {
                                     }
                                 }
                             });
-                            
+
                             getEventLanguages(data.data.data[0]._id);
-                            
+
                             if (data.data.data[0] !== undefined && data.data.data[0].useDefault !== undefined && data.data.data[0].useDefault === false) {
                                 let logo = REACT_APP_API_IMAGE_URL + data.data.data[0].logo_image;
 
@@ -143,11 +145,11 @@ const LoginWithUrlPage = (props) => {
                                 setLogoImage(logoIMAGEWITHTEXT);
                                 setCoverImage([]);
                             }
-                            
+
                             if (data.data.data[0] !== undefined) {
                                 if (data.data.data[0].login_page_bg !== undefined && data.data.data[0].login_page_bg !== null && data.data.data[0].login_page_bg !== "") {
-                                    const loginPageBg = REACT_APP_API_IMAGE_URL+data.data.data[0].login_page_bg?.replace(/\\/g, '/');
-                                    if(document.getElementById("loginwrap")){
+                                    const loginPageBg = REACT_APP_API_IMAGE_URL + data.data.data[0].login_page_bg?.replace(/\\/g, '/');
+                                    if (document.getElementById("loginwrap")) {
                                         document.getElementById("loginwrap").style.backgroundImage = `url('${loginPageBg}')`;
                                         document.getElementById("loginwrap").style.backgroundPosition = "center";
                                         document.getElementById("loginwrap").style.backgroundRepeat = " no-repeat";
@@ -208,8 +210,9 @@ const LoginWithUrlPage = (props) => {
                         let language = data.data.data
                         let langOptions = [{ value: "floor", label: "Original" }];
                         language.map((lang) => {
-                            return langOptions.push({ value: lang._id, label: lang.title })
+                            return langOptions.push({ value: lang._id, label: lang.title, flag: lang.language_id?.flag })
                         })
+                        console.log(langOptions, "langOptions");
                         setLanguageDetails(langOptions);
                     }
                 }
@@ -255,7 +258,7 @@ const LoginWithUrlPage = (props) => {
                             }
                         }
                     }
-                    
+
                     if (userRole !== 'listener' || meetingCodeRef.current.substring(0, 2) === 'ls') {
                         if (learnerUsers.length > 0) {
                             if (learnerUsers.includes(emailID) === true) {
@@ -273,9 +276,9 @@ const LoginWithUrlPage = (props) => {
                             }
                         }
                     }
-                    
+
                     setErrorMessage('');
-                    
+
                     let userDetails = {
                         name: userName,
                         mail: emailID,
@@ -285,7 +288,7 @@ const LoginWithUrlPage = (props) => {
                         logo: logoImage,
                         meetingCode: meetingCodeRef.current
                     }
-                    
+
                     let emailData = {
                         email: emailID,
                         event_id: eventList[0]._id
@@ -397,9 +400,9 @@ const LoginWithUrlPage = (props) => {
             <div className="login-wrap">
                 <div className="img-wrap" id="loginwrap">
                     <div id="defaultimg" className="flex-column">
-                        <img src="/login-.jpg" alt="loginjpg"/>
+                        <img src="/login-.jpg" alt="loginjpg" />
                         <div className="text-center mt-3">
-                            <a className="small-text white-text text-decoration-none" href="https://www.youtube.com/watch?v=Fo_GHVw_GoA" target="_blank">Instructions/Tutorial</a>
+                            <a className="small-text white-text text-decoration-none montserrat-font font-normal" href="https://www.youtube.com/watch?v=Fo_GHVw_GoA" target="_blank">Instructions/Tutorial</a>
                         </div>
                     </div>
                 </div>
@@ -408,15 +411,27 @@ const LoginWithUrlPage = (props) => {
                     <div className="object-left"><span></span></div>
                     <div className="form-wrap">
                         <div className="form-inner">
-                            <div className="main-logo">
-                                {logoImage !== "" && <img src={logoImage} alt="logo" className="logo-holder"/>}
-                                <br/> Meeting Code : {meetingCode}
+                            <div className="main-logo flex items-center justify-center mb-4">
+                                {logoImage !== "" && <img src={logoImage} alt="logo" className="logo-holder" />}
                             </div>
-                            <form className="mt-3"> 
+                            <form className="mt-3">
+                                <div className="form-list">
+                                    <label htmlFor="meeting-code" className="form-label mb-2">Meeting Code</label>
+                                    <div className="input-wrap">
+                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control' value={meetingCode} readOnly />
+                                        <span className="icon">
+                                            <svg className="text-[#BC9EC9]" xmlns="http://www.w3.org/2000/svg" fill="#BC9EC9" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M2.9917 4.9834V18.917M9.96265 4.9834V18.917M15.9378 4.9834V18.917m2.9875-13.9336V18.917" />
+                                                <path stroke="currentColor" stroke-linecap="round" d="M5.47925 4.4834V19.417m1.9917-14.9336V19.417M21.4129 4.4834V19.417M13.4461 4.4834V19.417" />
+                                            </svg>
+
+                                        </span>
+                                    </div>
+                                </div>
                                 <div className="form-list">
                                     <label htmlFor="rafiky-user-name" className="form-label mb-2">Name</label>
                                     <div className="input-wrap">
-                                        <input name="user-name" id="rafiky-user-name" placeholder="Name" type="text" className='form-control' />                                  
+                                        <input name="user-name" id="rafiky-user-name" placeholder="Name" type="text" className='form-control' />
                                         <span className="icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path></svg>
                                         </span>
@@ -432,8 +447,8 @@ const LoginWithUrlPage = (props) => {
                                                 <g id="XMLID_348_">
                                                     <path id="XMLID_350_" d="M173.871,177.097c-2.641,1.936-5.756,2.903-8.87,2.903c-3.116,0-6.23-0.967-8.871-2.903L30,84.602
                                                         L0.001,62.603L0,275.001c0.001,8.284,6.716,15,15,15L315.001,290c8.285,0,15-6.716,15-14.999V62.602l-30.001,22L173.871,177.097z"
-                                                        />
-                                                    <polygon id="XMLID_351_" points="165.001,146.4 310.087,40.001 19.911,40 	"/>
+                                                    />
+                                                    <polygon id="XMLID_351_" points="165.001,146.4 310.087,40.001 19.911,40 	" />
                                                 </g>
                                             </svg>
                                         </span>
@@ -443,44 +458,110 @@ const LoginWithUrlPage = (props) => {
                                     <div className="form-list">
                                         <label htmlFor="rafiky-user-password" className="form-label">Password</label>
                                         <div className="input-wrap">
-                                            <input name="password" id="rafiky-user-password" placeholder="Password" type="password" className='form-control' />                                  
+                                            <input name="password" id="rafiky-user-password" placeholder="Password" type="password" className='form-control' />
                                             <span className="icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path></svg>
                                             </span>
                                         </div>
                                     </div>
                                 )}
-                                
+
                                 {(meetingCodeRef.current !== undefined && meetingCodeRef.current !== null && meetingCodeRef.current !== "" && (meetingCodeRef.current.substring(0, 2) === "s-" || meetingCodeRef.current.substring(0, 2) === "l-" || meetingCodeRef.current.substring(0, 2) === "ss")) && (
                                     <div className="form-list">
                                         <label htmlFor="language" className="form-label">Default Language</label>
                                         <div className="input-wrap input-select">
                                             <span className="icon">
-                                                <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M19.753 10.909c-.624-1.707-2.366-2.726-4.661-2.726-.09 0-.176.002-.262.006l-.016-2.063 3.525-.607c.115-.019.133-.119.109-.231-.023-.111-.167-.883-.188-.976-.027-.131-.102-.127-.207-.109-.104.018-3.25.461-3.25.461l-.013-2.078c-.001-.125-.069-.158-.194-.156l-1.025.016c-.105.002-.164.049-.162.148l.033 2.307s-3.061.527-3.144.543c-.084.014-.17.053-.151.143s.19 1.094.208 1.172c.018.08.072.129.188.107l2.924-.504.035 2.018c-1.077.281-1.801.824-2.256 1.303-.768.807-1.207 1.887-1.207 2.963 0 1.586.971 2.529 2.328 2.695 3.162.387 5.119-3.06 5.769-4.715 1.097 1.506.256 4.354-2.094 5.98-.043.029-.098.129-.033.207l.619.756c.08.096.206.059.256.023 2.51-1.73 3.661-4.515 2.869-6.683zm-7.386 3.188c-.966-.121-.944-.914-.944-1.453 0-.773.327-1.58.876-2.156a3.21 3.21 0 0 1 1.229-.799l.082 4.277c-.385.131-.799.185-1.243.131zm2.427-.553l.046-4.109c.084-.004.166-.01.252-.01.773 0 1.494.145 1.885.361.391.217-1.023 2.713-2.183 3.758zm-8.95-7.668a.196.196 0 0 0-.196-.145h-1.95a.194.194 0 0 0-.194.144L.008 16.916c-.017.051-.011.076.062.076h1.733c.075 0 .099-.023.114-.072l1.008-3.318h3.496l1.008 3.318c.016.049.039.072.113.072h1.734c.072 0 .078-.025.062-.076-.014-.05-3.083-9.741-3.494-11.04zm-2.618 6.318l1.447-5.25 1.447 5.25H3.226z"/></svg>
-                                            </span>         
+                                                <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M19.753 10.909c-.624-1.707-2.366-2.726-4.661-2.726-.09 0-.176.002-.262.006l-.016-2.063 3.525-.607c.115-.019.133-.119.109-.231-.023-.111-.167-.883-.188-.976-.027-.131-.102-.127-.207-.109-.104.018-3.25.461-3.25.461l-.013-2.078c-.001-.125-.069-.158-.194-.156l-1.025.016c-.105.002-.164.049-.162.148l.033 2.307s-3.061.527-3.144.543c-.084.014-.17.053-.151.143s.19 1.094.208 1.172c.018.08.072.129.188.107l2.924-.504.035 2.018c-1.077.281-1.801.824-2.256 1.303-.768.807-1.207 1.887-1.207 2.963 0 1.586.971 2.529 2.328 2.695 3.162.387 5.119-3.06 5.769-4.715 1.097 1.506.256 4.354-2.094 5.98-.043.029-.098.129-.033.207l.619.756c.08.096.206.059.256.023 2.51-1.73 3.661-4.515 2.869-6.683zm-7.386 3.188c-.966-.121-.944-.914-.944-1.453 0-.773.327-1.58.876-2.156a3.21 3.21 0 0 1 1.229-.799l.082 4.277c-.385.131-.799.185-1.243.131zm2.427-.553l.046-4.109c.084-.004.166-.01.252-.01.773 0 1.494.145 1.885.361.391.217-1.023 2.713-2.183 3.758zm-8.95-7.668a.196.196 0 0 0-.196-.145h-1.95a.194.194 0 0 0-.194.144L.008 16.916c-.017.051-.011.076.062.076h1.733c.075 0 .099-.023.114-.072l1.008-3.318h3.496l1.008 3.318c.016.049.039.072.113.072h1.734c.072 0 .078-.025.062-.076-.014-.05-3.083-9.741-3.494-11.04zm-2.618 6.318l1.447-5.25 1.447 5.25H3.226z" /></svg>
+                                            </span>
                                             <Select
                                                 name="language"
                                                 value={selectedOption}
                                                 options={languageDetails}
                                                 noOptionsMessage={() => "No Languages found"}
                                                 onChange={handleLanguageChange}
-                                                style={{ display: 'block' }}
-                                            />                               
+
+                                                styles={{
+                                                    control: (base, state) => ({
+                                                        ...base,
+                                                        minHeight: "42px",          // input ki height
+                                                        height: "42px",
+                                                        borderRadius: "9999px",     // fully rounded
+                                                        borderColor: state.isFocused ? "#533A84" : "#E5E5E5",
+                                                        paddingLeft: "10px",
+                                                        boxShadow: "none",
+                                                        "&:hover": {
+                                                            borderColor: "#533A84",
+                                                        },
+                                                        fontFamily: "Montserrat",
+                                                    }),
+                                                    valueContainer: (base) => ({
+                                                        ...base,
+                                                        padding: "0 12px", // andar ka spacing same as input
+                                                    }),
+                                                    input: (base) => ({
+                                                        ...base,
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontFamily: "Montserrat",
+                                                    }),
+                                                    indicatorsContainer: (base) => ({
+                                                        ...base,
+                                                        height: "42px",
+                                                    }),
+                                                    dropdownIndicator: (base) => ({
+                                                        ...base,
+                                                        paddingRight: "12px",
+                                                        color: "#666",
+                                                        "&:hover": {
+                                                            color: "#533A84",
+                                                        },
+                                                    }),
+                                                    option: (base, state) => ({
+                                                        ...base,
+                                                        padding: "8px 12px",
+                                                        backgroundColor: state.isFocused ? "#eeebf3" : "white",
+                                                        color: "#333",
+                                                        cursor: "pointer",
+                                                        fontFamily: "Montserrat",
+                                                    }),
+                                                }}
+                                                theme={(theme) => ({
+                                                    ...theme,
+                                                    borderRadius: 0,
+                                                    colors: {
+                                                        ...theme.colors,
+                                                        primary25: '#eeebf3',
+                                                        primary: '#533A84',
+                                                    }
+                                                })}
+
+                                                formatOptionLabel={(option) => (
+                                                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                                        <img
+
+                                                            src={option.flag ? `${REACT_APP_API_URL}${option.flag}` : "/favicon.png"}
+                                                            alt=""
+                                                            style={{ width: "18px", height: "18px", objectFit: "contain" }}
+                                                        />
+                                                        <span>{option.label}</span>
+                                                    </div>
+                                                )}
+                                            />
                                         </div>
                                     </div>
                                 )}
-                                
+
                                 {errorMessage !== "" && (
                                     <div className="validtxt_msg">{errorMessage}</div>
                                 )}
-                                
-                                <div className="text-center">
+
+                                <div className="text-center mt-4">
                                     <button type="button" onClick={submitJoin} className="btn btn-primary my-2" disabled={disableBtn}>
-                                        {disableBtn === true ? 'Logging in...' : 'Login'}
+                                        {disableBtn === true ? 'Joining...' : 'Join Event'}
                                         {disableBtn === true ? <ClipLoader size={15} color={"#fff"} loading={true} /> : ''}
                                     </button>
                                 </div>
-                                <p className="small-text text-center mb-4">By signing in, I agree to the Rafiky's Privacy Statement and Terms of Service.</p>
+                                {/* <p className="small-text text-center mb-4">By signing in, I agree to the Rafiky's Privacy Statement and Terms of Service.</p> */}
                             </form>
                             {coverImage !== "" && coverImage.length > 0 && (
                                 <div className="login-cover-img-wrapper">
@@ -494,39 +575,39 @@ const LoginWithUrlPage = (props) => {
                                 </div>
                             )}
 
-                            {(coverImage === "" || coverImage.length === 0 || true) && (
+                            {/* {(coverImage === "" || coverImage.length === 0 || true) && (
                                 <div className="social-info">
                                     <p className=""><span>Follow Us </span></p>
                                     <ul>
                                         <li>
                                             <a href="https://www.facebook.com/Rafiky.net" target="_blank" rel="noopener noreferrer">
-                                                <img src="/facebook.svg" alt="Facebook"/>                                                
+                                                <img src="/facebook.svg" alt="Facebook" />
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://www.instagram.com/rafikynet/" target="_blank" rel="noopener noreferrer">    
-                                                <img src="/instagram.svg" alt="Instagram"/>
+                                            <a href="https://www.instagram.com/rafikynet/" target="_blank" rel="noopener noreferrer">
+                                                <img src="/instagram.svg" alt="Instagram" />
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://twitter.com/rafiky_net" target="_blank" rel="noopener noreferrer">
-                                                <img src="/twitter.svg" alt="Twitter"/>
+                                                <img src="/twitter.svg" alt="Twitter" />
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://www.linkedin.com/company/rafiky/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
-                                                <img src="/linkedin.svg" alt="LinkedIn"/>
+                                                <img src="/linkedin.svg" alt="LinkedIn" />
                                             </a>
                                         </li>
                                     </ul>
                                     <div className="text-center">
                                         <a className="term-conditions" href="https://www.rafiky.net/en/terms-conditions/" target="_blank" rel="noopener noreferrer"> Terms and conditions</a>
-                                    </div>      
+                                    </div>
                                     <div className="text-center mt-2 instruction d-md-none">
                                         <a className="small-text grey-text text-decoration-none" href="https://www.youtube.com/watch?v=Fo_GHVw_GoA" target="_blank" rel="noopener noreferrer">Instructions/Tutorial</a>
-                                    </div>                          
+                                    </div>
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
                     <div className="object-leftbottom"><span></span></div>
