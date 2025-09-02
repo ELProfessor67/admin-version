@@ -11,7 +11,7 @@
     max-width: 50%;
     /* background: linear-gradient(30deg,rgba(107,63,192,.97),rgba(244,0,161,.97)),url(../img/back.gif); */
     /* background: linear-gradient(30deg,rgba(83, 71, 108, .97),rgba(46, 16, 120,.97)),url(../img/back.gif); */
-    background: linear-gradient(30deg,rgba(83, 71, 108, .97),rgba(46, 16, 120,.97)),url('/star.gif');
+    background: linear-gradient(30deg,rgba(83, 71, 108, .97),rgba(46, 16, 120,.97)),url(../img/star.gif);
     border-radius: 0!important;
     padding: 20px;
     position: relative;
