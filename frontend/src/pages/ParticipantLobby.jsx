@@ -30,12 +30,14 @@ import NoDataIcon from "@/assets/img/no-data.svg"
 import InformationIcon from "@/assets/img/information.svg"
 import LogoIcon from "@/assets/img/logo-2-01.png"
 import apiSessionService from "@/service/event/sessionService"
-import { REACT_APP_API_IMAGE_URL, REACT_APP_JWT_SECRET,REACT_APP_MEETING_URL , REACT_APP_MEETING_LINK_INTERPRETER, REACT_APP_MEETING_LINK_LEARNER, REACT_APP_MEETING_LINK_MODERATOR, REACT_APP_MEETING_LINK_SECONDARY_MODERATOR, REACT_APP_MEETING_LINK_SIGNLANGUAGE, REACT_APP_MEETING_LINK_SPEAKER, REACT_APP_MEETING_LINK_STREAMOUT, REACT_APP_URL,REACT_APP_API_URL,REACT_APP_MEETINGCODE_LENGTH,REACT_APP_OPENTOK_KEY,REACT_APP_OPENTOK_SECRET,REACT_APP_S3_UPLOADS_URL,REACT_APP_S3_URL } from "@/constants/URLConstant";
+import { REACT_APP_API_IMAGE_URL, REACT_APP_JWT_SECRET, REACT_APP_MEETING_URL, REACT_APP_MEETING_LINK_INTERPRETER, REACT_APP_MEETING_LINK_LEARNER, REACT_APP_MEETING_LINK_MODERATOR, REACT_APP_MEETING_LINK_SECONDARY_MODERATOR, REACT_APP_MEETING_LINK_SIGNLANGUAGE, REACT_APP_MEETING_LINK_SPEAKER, REACT_APP_MEETING_LINK_STREAMOUT, REACT_APP_URL, REACT_APP_API_URL, REACT_APP_MEETINGCODE_LENGTH, REACT_APP_OPENTOK_KEY, REACT_APP_OPENTOK_SECRET, REACT_APP_S3_UPLOADS_URL, REACT_APP_S3_URL } from "@/constants/URLConstant";
 import apiEventUserService from "@/service/event/eventUserService";
 import apiEventSessionService from "@/service/event/sessionService";
+import { LuClock } from "react-icons/lu";
+import { IoCalendarNumberOutline } from "react-icons/io5";
 import ApiLoader from '@/components/Loader';
 
-const EventList = ({ history }) => {
+const ParticipantLobby = ({ history }) => {
     // State management
     const [state, setState] = useState({
         eventList: [],
@@ -78,7 +80,8 @@ const EventList = ({ history }) => {
         selectedDateFilter: new Date(),
         dateFilterActive: false,
         csvStreamRecordData: [],
-        apiresponse: false
+        apiresponse: false,
+        loadingAgenda: false
     });
 
     // Refs for component data
@@ -262,8 +265,8 @@ const EventList = ({ history }) => {
         if (userCredentials && userCredentials !== null &&
             userCredentials !== "" && userCredentials !== undefined && userCredentials.id && userCredentials.id !== null &&
             userCredentials.id !== "" && userCredentials.id !== undefined) {
-            
-     
+
+
             let getEventDetailsData = {
                 user_id: userCredentials.id,
                 finish: true
@@ -635,7 +638,8 @@ const EventList = ({ history }) => {
                 fetchSessions: true,
                 showSessions: true,
                 showPollReports: false,
-                showEventUserStreamReport: false
+                showEventUserStreamReport: false,
+                loadingAgenda: true
             }));
 
             let pollListClass = document.querySelectorAll(".poll_list");
@@ -661,7 +665,7 @@ const EventList = ({ history }) => {
             }
 
             apiEventSessionService.getEventAgenda(roomDetails).then((data) => {
-                setState(prev => ({ ...prev, fetchSessions: false }));
+                setState(prev => ({ ...prev, fetchSessions: false, loadingAgenda: false }));
 
                 if (data && data !== undefined && data !== null && data !== "") {
                     if (data.status && data.status !== undefined && data.status !== null && data.status === 200) {
@@ -771,6 +775,8 @@ const EventList = ({ history }) => {
                         title: "No response from the server. Please try again!"
                     });
                 }
+            }).catch((error) => {
+                setState(prev => ({ ...prev, loadingAgenda: false }));
             });
         }
     };
@@ -1299,55 +1305,55 @@ const EventList = ({ history }) => {
                 setTimeout(() => {
                     setState(prev => ({ ...prev, apiresponse: true }));
                 }, 1000);
-    
+
                 // let eventDetails = jwt.decode(localStorage.getItem('eventCodeUser'), REACT_APP_JWT_SECRET, 'HS512');
                 let eventDetails = await helper.decodeEncodedItem(localStorage.getItem('eventCodeUser'))
                 if (eventDetails.eventDetails !== undefined && eventDetails.eventDetails !== "") {
                     const eventDataTemp = eventDetails.eventDetails[0];
-    
+
                     let dt1 = new Date(eventDataTemp.start_time);
                     let dt2 = new Date(eventDataTemp.end_time);
-    
+
                     let updatedEventStartTime;
                     if (eventDataTemp.start_date_time !== undefined && eventDataTemp.start_date_time !== null && eventDataTemp.start_date_time !== "") {
                         updatedEventStartTime = moment(eventDataTemp.start_date_time).tz(state.timezone).format();
                     } else {
                         updatedEventStartTime = moment(eventDataTemp.date).tz(state.timezone).format();
                     }
-    
+
                     updatedEventStartTime = new Date(updatedEventStartTime).setHours(addZero(new Date(eventDataTemp.start_time).getHours()));
                     updatedEventStartTime = new Date(updatedEventStartTime).setMinutes(addZero(new Date(eventDataTemp.start_time).getMinutes()));
                     updatedEventStartTime = new Date(updatedEventStartTime).setSeconds(addZero(new Date(eventDataTemp.start_time).getSeconds()));
                     updatedEventStartTime = new Date(updatedEventStartTime);
-    
+
                     let updatedEventEndTime = new Date(updatedEventStartTime);
                     updatedEventEndTime.setMinutes(updatedEventEndTime.getMinutes() + diff_minutes(dt1, dt2));
                     updatedEventEndTime = moment(updatedEventEndTime).format('YYYY-MM-DD HH:mm:ss');
-    
+
                     eventDataTemp.event_start_time = updatedEventStartTime;
                     eventDataTemp.event_end_time = updatedEventEndTime;
                     eventDataTemp.loggedin_user_id = eventDetails.loggedInUserId;
-    
+
                     if (eventDetails.user_role === 'interpreter') {
                         setSessionDataDetails((eventDetails.sessionDetails !== undefined && eventDetails.sessionDetails !== null) ? eventDetails.sessionDetails : "");
                     }
-    
+
                     eventDataTemp.user_role = eventDetails.user_role;
                     eventDataTemp.user_name = eventDetails.name;
                     eventDataTemp.user_email = eventDetails.mail;
                     eventDataTemp.eventId = eventDataTemp._id;
                     eventDataTemp.meetingCode = eventDetails.meetingCode;
                     eventDataTemp.user_selected_language = eventDetails.user_selected_language;
-    
+
                     setEventData(eventDataTemp);
-    
+
                     setState(prev => ({ ...prev, logoIMG: eventDetails.logo, moderator: false }));
-    
+
                     if (eventDetails.user_role !== undefined && eventDetails.user_role !== "") {
                         if (eventDetails.user_role === 'moderator') {
                             setState(prev => ({ ...prev, moderator: true }));
                         }
-    
+
                         if (eventDetails.user_role === 'interpreter') {
                             let getRoomDetails = {
                                 session_id: eventDetails.sessionDetails
@@ -1363,19 +1369,24 @@ const EventList = ({ history }) => {
                             });
                         }
                     }
-    
+
                     sortEventList(eventDetails.eventDetails, true);
-    
+
                     if (eventDetails.eventDetails.length > 0) {
-                        if (document.getElementById("landingbg")) {
-                            document.getElementById("landingbg").style.backgroundImage = "url('" + REACT_APP_API_IMAGE_URL + eventDetails.eventDetails[0].landing_page_bg + "')";
-                            document.getElementById("landingbg").style.backgroundPosition = "center";
-                            document.getElementById("landingbg").style.backgroundRepeat = " no-repeat";
-                            document.getElementById("landingbg").style.backgroundSize = "cover";
-                            document.getElementById("landingbg").style.margin = "0px";
-                            document.getElementById("landingbg").style.borderRadius = "0px";
-                            document.getElementById("landingbg").classList.add('landingbg');
-                            document.getElementById("landingbg").classList.add('shadowtxt');
+                        const sectionMain = document.getElementById("section-main");
+                        // if (document.getElementById("landingbg")) {
+                        if (sectionMain) {
+                            // replace backslash to forwardSlash
+                            const lobbyUrl = (REACT_APP_API_IMAGE_URL + eventDetails.eventDetails[0].landing_page_bg)
+                                .replace(/\\/g, "/");
+                            sectionMain.style.backgroundImage = `url('${lobbyUrl}')`;
+                            sectionMain.style.backgroundPosition = "center";
+                            sectionMain.style.backgroundRepeat = " no-repeat";
+                            sectionMain.style.backgroundSize = "cover";
+                            sectionMain.style.margin = "0px";
+                            sectionMain.style.borderRadius = "0px";
+                            sectionMain.classList.add('landingbg');
+                            sectionMain.classList.add('shadowtxt');
                         }
                     }
                 }
@@ -1394,16 +1405,229 @@ const EventList = ({ history }) => {
 
     return (
         <React.Fragment>
-            <section className="scheduller-session">
-                {
+            <section className="scheduller-session !bg-white !h-screen !overflow-y-hidden" id="section-main">
+            {
                     !state.apiresponse && (
                         <ApiLoader />
                     )
                 }
                 
-                <Header history={history} logoIMG={state.logoIMG} />
+                {/* <Header history={history} logoIMG={state.logoIMG} /> */}
 
-                <div id="landingbg" className="d-flex meeting-lst-complete-row">
+                <div id="landingbg" className="d-flex !flex-col !bg-white !max-w-5xl !mx-auto !rounded-md shadow-md !before:bg-transparent !mt-16 p-5">
+                    {/* logo  */}
+                    <div className="!flex !items-center !justify-center">
+                        <img src={state.logoIMG} alt="logo" className="!w-[13rem]" />
+                    </div>
+
+                    {
+                        (state.eventAgenda.length == 0 && !state.loadingAgenda) && (
+                            <div>
+                                <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-4">
+                                    <div className="flex flex-row items-center gap-2">
+                                        <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Event: </h3>
+                                        <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{eventData['name']}</h3>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                                        <div className="flex flex-col items-start gap-2">
+                                            <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Start date & time </h3>
+                                            <div className="flex flex-row items-center gap-4">
+                                                <div className="flex flex-row items-start gap-2">
+                                                    <span className="text-dark pt-1">
+                                                        <LuClock size={20} />
+                                                    </span>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                        {moment(eventData['event_start_time']).tz(state.timezone).format('hh:mm A')}
+                                                    </h3>
+                                                </div>
+                                                <div className="flex flex-row items-start gap-2">
+                                                    <span className="text-dark pt-1">
+                                                        <IoCalendarNumberOutline size={20} />
+                                                    </span>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                        {moment(eventData['event_start_time']).tz(state.timezone).format('MMMM DD, YYYY')}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-2">
+                                            <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">End date & time </h3>
+                                            <div className="flex flex-row items-center gap-4">
+                                                <div className="flex flex-row items-start gap-2">
+                                                    <span className="text-dark pt-1">
+                                                        <LuClock size={20} />
+                                                    </span>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                        {moment(eventData['event_end_time']).tz(state.timezone).format('hh:mm A')}
+                                                    </h3>
+                                                </div>
+                                                <div className="flex flex-row items-start gap-2">
+                                                    <span className="text-dark pt-1">
+                                                        <IoCalendarNumberOutline size={20} />
+                                                    </span>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                        {moment(eventData['event_end_time']).tz(state.timezone).format('MMMM DD, YYYY')}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2">
+                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Description </h3>
+                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{eventData['description']}</h3>
+                                </div>
+
+
+                                {state.eventRooms.length > 0 ? (
+                                    <div className="!flex !items-start !flex-col !justify-start p-4 !rounded-md gap-2 mt-5 w-full">
+                                        <h1 className="!text-gray !font-montserrat !text-xl !font-semibold !shadow-none !mb-0 !text-shadow-none !border-none text-center w-full">All Rooms</h1>
+                                        <div className="rooms-listing-whole-blk w-full">
+                                            <div className="rooms-listing-wrapper !p-0 w-full">
+                                                {state.eventRooms.map((room, key) => {
+                                                    return (
+                                                        <div className="!flex !items-start !justify-between p-2 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2 border !border-gray-50 !rounded-md" key={key}>
+
+                                                            <div className={"rooms-name-wrapper  !text-dark !font-montserrat !text-lg !font-normal !mb-0 !text-shadow-none !border-none room_list room_" + room._id + ""} >
+                                                                {room.name}
+                                                            </div>
+
+                                                            <button onClick={() => viewAgenda(room._id, room.name, state.eventRooms.eventCode)} className=" !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none !border-none !rounded-3xl !bg-primary !text-white !px-4 !py-2">
+                                                                Join Room
+                                                            </button>
+                                                        </div>
+
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="!flex !items-start !flex-col !justify-start p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2 mt-5">
+                                        <div className="!no-resourses-lst">
+                                            <img src={NoDataIcon} alt="no-data" />
+                                        </div>
+                                        <div className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">No rooms are available</div>
+                                    </div>
+                                )}
+                            </div>
+
+                        )
+                    }
+
+
+                    {state.loadingAgenda && (
+                        <div className="!flex !items-center !justify-center p-4 !rounded-md gap-2 mt-5">
+                            <div className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none !mt-3 text-center">Fetching User Stream Reports. Please wait...</div>
+                        </div>
+                    )}
+
+                    {state.eventAgenda.length > 0 && (
+                        <div>
+                            <div className="!text-dark !font-montserrat !text-2xl !font-semibold !mb-0 !text-shadow-none text-center mt-5">Sessions</div>
+                            {state.eventAgenda.map((agendas, index) => {
+                                return (
+                                    <div className="agenda-block !border-none" key={index}>
+                                        <div className="!flex !items-start !flex-col !justify-start p-4 !rounded-md shadow-[0_-4px_4px_rgba(0,0,0,0.1),0_4px_4px_rgba(0,0,0,0.1)] gap-4">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Agenda: </h3>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{agendas?.name}</h3>
+                                                </div>
+
+                                                <div className="flex flex-row items-center gap-2">
+                                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Meeting ID: </h3>
+                                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{state.eventCode}</h3>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                                                <div className="flex flex-col items-start gap-2">
+                                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Start date & time </h3>
+                                                    <div className="flex flex-row items-center gap-2">
+                                                        <div className="flex flex-row items-start gap-2">
+                                                            <span className="text-dark pt-1">
+                                                                <LuClock size={20} />
+                                                            </span>
+                                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                                {moment(agendas?.session_start_time).tz(state.timezone).format('hh:mm A')}
+                                                            </h3>
+                                                        </div>
+                                                        <div className="flex flex-row items-start gap-2">
+                                                            <span className="text-dark pt-1">
+                                                                <IoCalendarNumberOutline size={20} />
+                                                            </span>
+                                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                                {moment(agendas?.session_start_time).tz(state.timezone).format('MMMM DD, YYYY')}
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col items-start gap-2">
+                                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">End date & time </h3>
+                                                    <div className="flex flex-row items-center gap-2">
+                                                        <div className="flex flex-row items-start gap-2">
+                                                            <span className="text-dark pt-1">
+                                                                <LuClock size={20} />
+                                                            </span>
+                                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                                {moment(agendas?.session_end_time).tz(state.timezone).format('hh:mm A')}
+                                                            </h3>
+                                                        </div>
+                                                        <div className="flex flex-row items-start gap-2">
+                                                            <span className="text-dark pt-1">
+                                                                <IoCalendarNumberOutline size={20} />
+                                                            </span>
+                                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">
+                                                                {moment(agendas?.session_end_time).tz(state.timezone).format('MMMM DD, YYYY')}
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2">
+                                            <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Description </h3>
+                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{agendas['description']}</h3>
+                                        </div>
+
+                                        {state.eventStatus !== "" && state.eventStatus !== 2 && (
+                                            <div className="room-join-btn-wrapper !border-none !shadow-none">
+                                                <button className="border border-gray text-dark !rounded-3xl !px-12 !py-2 !mr-4 !text-lg" onClick={() => setState(prev => ({ ...prev, eventAgenda: [] }))}>
+                                                    Back
+                                                </button>
+                                                {agendas.type === "past" && (
+                                                    <button type="button" className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none px-4 py-2">This meeting already expired</button>
+                                                )}
+                                                {agendas.type !== "past" && (
+                                                    state.joiningMeeting ? (
+                                                        <button type="button" className="!rounded-3xl !bg-primary !text-white !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none px-4 py-2" disabled={state.joiningMeeting}>
+                                                            {state.joiningMeeting === true ? state.moderator === true ? 'Starting Meeting... ' : 'Joining Meeting... ' : state.moderator === true ? 'Start Meeting' : 'Join Meeting'}
+                                                            {state.joiningMeeting === true ? <ClipLoader size={15} color={"#fff"} loading={true} /> : ''}
+                                                        </button>
+                                                    ) : (
+                                                        <button type="button" className="!rounded-3xl !bg-primary !text-white !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none px-4 py-2" onClick={() => goForEvents(agendas)}>
+                                                            {state.moderator === true ? 'Start Meeting' : 'Join Meeting'}
+                                                        </button>
+                                                    )
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+
+
+
+                    {/*                   
                     {eventData !== "" && (
                         <div className="meet-schedule-col mod-meet-lst-blk">
                             <div className="meet-schedul-caption meet-schedul-underline">{eventData['name']}</div>
@@ -1524,8 +1748,8 @@ const EventList = ({ history }) => {
                                 )}
                             </div>
                         </div>
-                    )}
-
+                    )} */}
+                    {/* 
                     {eventData === "" && (
                         <div className="meet-schedule-col mod-meet-lst-blk">
                             <div className="meet-schedul-caption meet-schedul-underline">Meetings</div>
@@ -1624,9 +1848,9 @@ const EventList = ({ history }) => {
                                 )}
                             </div>
                         </div>
-                    )}
+                    )} */}
 
-                    <div className="rooms-listing-tab">
+                    {/* <div className="rooms-listing-tab">
                         {state.fetchRooms && (
                             <div className="d-flex align-items-center justify-content-center h-100 flex-column">
                                 <Loader type="Bars" color="#00d2a5" height={30} width={30} />
@@ -1686,8 +1910,8 @@ const EventList = ({ history }) => {
                                 </div>
                             </React.Fragment>
                         )}
-                    </div>
-
+                    </div> */}
+                    {/* 
                     <div className="rooms-listing-col">
                         {state.fetchSessions && state.showSessions && (
                             <div className="d-flex align-items-center justify-content-center h-100 flex-column">
@@ -2057,7 +2281,7 @@ const EventList = ({ history }) => {
                                 </div>
                             </React.Fragment>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </section>
 
@@ -2173,8 +2397,8 @@ const EventList = ({ history }) => {
                     </div>
                 )}
             </Modal>
-        </React.Fragment>
+        </React.Fragment >
     );
 };
 
-export default EventList;
+export default ParticipantLobby;

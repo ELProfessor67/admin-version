@@ -11,7 +11,7 @@ import { encodeToken } from "@/service/auth/authService";
 import { REACT_APP_API_IMAGE_URL, REACT_APP_MEETINGCODE_LENGTH } from "@/constants/URLConstant";
 import apiEventUserService from "@/service/event/eventUserService"
 import { REACT_APP_API_URL } from "@/constants/URLConstant";
-
+import ApiLoader from '@/components/Loader';
 const LoginWithUrlPage = (props) => {
     const [eventList, setEventList] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
@@ -304,7 +304,7 @@ const LoginWithUrlPage = (props) => {
                                         const res = await encodeToken(userDetails);
                                         userDetails = res.data.token;
                                         window.localStorage.setItem('eventCodeUser', JSON.stringify(userDetails));
-                                        props.history.push("/events");
+                                        props.history.push("/participant");
                                     } else {
                                         setErrorMessage('Email address belongs to interpreter');
                                     }
@@ -320,7 +320,7 @@ const LoginWithUrlPage = (props) => {
                                                 const res = await encodeToken(userDetails);
                                                 userDetails = res.data.token;
                                                 window.localStorage.setItem('eventCodeUser', JSON.stringify(userDetails));
-                                                props.history.push("/events");
+                                                props.history.push("/participant");
                                             } else {
                                                 setErrorMessage('Incorrect Password');
                                             }
@@ -336,7 +336,7 @@ const LoginWithUrlPage = (props) => {
                                         const res = await encodeToken(userDetails);
                                         userDetails = res.data.token;
                                         window.localStorage.setItem('eventCodeUser', JSON.stringify(userDetails));
-                                        props.history.push("/events");
+                                        props.history.push("/participant");
                                     }
                                 }
                             }
@@ -396,9 +396,14 @@ const LoginWithUrlPage = (props) => {
 
     return (
         <section className="main-wrapper">
-            <div className={apiresponse ? "hide" : "apiloader"}><div className="apiloader-spinner"></div></div>
+            {
+                !apiresponse && (
+                    <ApiLoader />
+                )
+            }
+            
             <div className="login-wrap">
-                <div className="img-wrap" id="loginwrap">
+                <div className="img-wrap !bg-primary" id="loginwrap">
                     <div id="defaultimg" className="flex-column">
                         <img src="/login-.jpg" alt="loginjpg" />
                         <div className="text-center mt-3">
@@ -407,27 +412,15 @@ const LoginWithUrlPage = (props) => {
                     </div>
                 </div>
                 <div className="content-wrap">
-                    <div className="object"><span></span></div>
-                    <div className="object-left"><span></span></div>
+                    {/* <div className="object"><span></span></div> */}
+                    {/* <div className="object-left"><span></span></div> */}
                     <div className="form-wrap">
-                        <div className="form-inner">
+                        <div className="form-inner !max-w-[500px] p-5 !rounded-md shadow-md border !border-gray-50 transition-transform duration-300 ease-in-out transform hover:scale-[1.02]">
                             <div className="main-logo flex items-center justify-center mb-4">
                                 {logoImage !== "" && <img src={logoImage} alt="logo" className="logo-holder" />}
                             </div>
                             <form className="mt-3">
-                                <div className="form-list">
-                                    <label htmlFor="meeting-code" className="form-label mb-2">Meeting Code</label>
-                                    <div className="input-wrap">
-                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control' value={meetingCode} readOnly />
-                                        <span className="icon">
-                                            <svg className="text-[#BC9EC9]" xmlns="http://www.w3.org/2000/svg" fill="#BC9EC9" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M2.9917 4.9834V18.917M9.96265 4.9834V18.917M15.9378 4.9834V18.917m2.9875-13.9336V18.917" />
-                                                <path stroke="currentColor" stroke-linecap="round" d="M5.47925 4.4834V19.417m1.9917-14.9336V19.417M21.4129 4.4834V19.417M13.4461 4.4834V19.417" />
-                                            </svg>
 
-                                        </span>
-                                    </div>
-                                </div>
                                 <div className="form-list">
                                     <label htmlFor="rafiky-user-name" className="form-label mb-2">Name</label>
                                     <div className="input-wrap">
@@ -555,6 +548,14 @@ const LoginWithUrlPage = (props) => {
                                     <div className="validtxt_msg">{errorMessage}</div>
                                 )}
 
+                                <div className="form-list">
+                                    <label htmlFor="meeting-code" className="form-label mb-2">Meeting Code</label>
+                                    <div className="input-wrap">
+                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control !pl-4' value={meetingCode} readOnly />
+
+                                    </div>
+                                </div>
+
                                 <div className="text-center mt-4">
                                     <button type="button" onClick={submitJoin} className="btn btn-primary my-2" disabled={disableBtn}>
                                         {disableBtn === true ? 'Joining...' : 'Join Event'}
@@ -564,10 +565,10 @@ const LoginWithUrlPage = (props) => {
                                 {/* <p className="small-text text-center mb-4">By signing in, I agree to the Rafiky's Privacy Statement and Terms of Service.</p> */}
                             </form>
                             {coverImage !== "" && coverImage.length > 0 && (
-                                <div className="login-cover-img-wrapper">
+                                <div className="login-cover-img-wrapper gap-2">
                                     {coverImage.map((value, index) => {
                                         return (
-                                            <div className="login-cover-img" key={"coverimage_" + index}>
+                                            <div className="login-cover-img !min-w-12 !m-0" key={"coverimage_" + index}>
                                                 <img src={REACT_APP_API_IMAGE_URL + value} className="object-fill" alt="Sponsor Logo" />
                                             </div>
                                         )
@@ -575,7 +576,7 @@ const LoginWithUrlPage = (props) => {
                                 </div>
                             )}
 
-                            {/* {(coverImage === "" || coverImage.length === 0 || true) && (
+                            {(coverImage === "" || coverImage.length === 0) && (
                                 <div className="social-info">
                                     <p className=""><span>Follow Us </span></p>
                                     <ul>
@@ -601,18 +602,18 @@ const LoginWithUrlPage = (props) => {
                                         </li>
                                     </ul>
                                     <div className="text-center">
-                                        <a className="term-conditions" href="https://www.rafiky.net/en/terms-conditions/" target="_blank" rel="noopener noreferrer"> Terms and conditions</a>
+                                        <a className="term-conditions !text-lg !font-montserrat !text-primary" href="https://www.rafiky.net/en/terms-conditions/" target="_blank" rel="noopener noreferrer"> Terms and conditions</a>
                                     </div>
-                                    <div className="text-center mt-2 instruction d-md-none">
+                                    {/* <div className="text-center mt-2 instruction d-md-none">
                                         <a className="small-text grey-text text-decoration-none" href="https://www.youtube.com/watch?v=Fo_GHVw_GoA" target="_blank" rel="noopener noreferrer">Instructions/Tutorial</a>
-                                    </div>
+                                    </div> */}
                                 </div>
-                            )} */}
+                            )}
                         </div>
                     </div>
-                    <div className="object-leftbottom"><span></span></div>
-                    <div className="object-bottom "><span></span></div>
-                    <div className="object-bottomright"><span></span></div>
+                    {/* <div className="object-leftbottom"><span></span></div> */}
+                    {/* <div className="object-bottom "><span></span></div> */}
+                    {/* <div className="object-bottomright"><span></span></div> */}
                 </div>
             </div>
         </section>

@@ -12,6 +12,7 @@ import EventLobbyPage from "@/pages/EventLobbyPage";
 import EventEditorPage from "@/pages/EventEditorPage";
 import LoginWithUrlPage from "@/pages/loginWithUrlPage";
 import LogoutPage from "@/pages/LogoutPage";
+import ParticipantLobby from "@/pages/ParticipantLobby";
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Switch>
             <Route path="/" exact component={LoginPage} />
             <Route path="/events" exact component={EventLobbyPage} />
+            <Route path="/participant" exact component={ParticipantLobby} />
             <Route path="/events/:id" exact component={EventEditorPage} />
             <Route path="/schedule" exact component={EventEditorPage} />
             <Route path="/logout" exact component={LogoutPage} />
