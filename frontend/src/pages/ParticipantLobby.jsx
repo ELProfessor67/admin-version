@@ -1433,10 +1433,10 @@ const ParticipantLobby = ({ history }) => {
 
                 {/* <Header history={history} logoIMG={state.logoIMG} /> */}
 
-                <div id="landingbg" className="d-flex !flex-col !bg-white !max-w-5xl !mx-auto !rounded-md shadow-md !before:bg-transparent !mt-16 p-5 !h-[85vh] overflow-y-auto">
+                <div id="landingbg" className="d-flex !flex-col !bg-white !max-w-5xl !mx-auto !rounded-md shadow-md !before:bg-transparent !mt-8 py-1 px-5 !h-[90vh] overflow-y-auto">
                     {/* logo  */}
                     <div className="!flex !items-center !justify-center">
-                        <img src={state.logoIMG} alt="logo" className="!w-[13rem]" />
+                        <img src={state.logoIMG} alt="logo" className="!w-[10rem] !h-[5rem] object-contain" />
                     </div>
 
                     {

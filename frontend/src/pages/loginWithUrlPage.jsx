@@ -12,6 +12,8 @@ import { REACT_APP_API_IMAGE_URL, REACT_APP_MEETINGCODE_LENGTH } from "@/constan
 import apiEventUserService from "@/service/event/eventUserService"
 import { REACT_APP_API_URL } from "@/constants/URLConstant";
 import ApiLoader from '@/components/Loader';
+
+
 const LoginWithUrlPage = (props) => {
     const [eventList, setEventList] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
@@ -415,9 +417,9 @@ const LoginWithUrlPage = (props) => {
                     {/* <div className="object"><span></span></div> */}
                     {/* <div className="object-left"><span></span></div> */}
                     <div className="form-wrap">
-                        <div className="form-inner !max-w-[500px] p-5 !rounded-md shadow-md border !border-gray-50 transition-transform duration-300 ease-in-out transform hover:scale-[1.02]">
+                        <div className="form-inner !max-w-[500px] py-3 px-5 !rounded-md shadow-md border !border-gray-50 transition-transform duration-300 ease-in-out transform hover:scale-[1.02]">
                             <div className="main-logo flex items-center justify-center mb-4">
-                                {logoImage !== "" && <img src={logoImage} alt="logo" className="logo-holder" />}
+                                {logoImage !== "" && <img src={logoImage} alt="logo" className="logo-holder !w-[200px] !h-[100px] object-contain" />}
                             </div>
                             <form className="mt-3">
 

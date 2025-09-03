@@ -16,6 +16,22 @@
   box-sizing: border-box !important;
   text-shadow: none !important;
 }
+
+/* scrool bar style */
+::-webkit-scrollbar {
+  @apply w-2 bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary rounded-full;
+}
+
+
 .montserrat-font {
   font-family: 'Montserrat', sans-serif;
 }
