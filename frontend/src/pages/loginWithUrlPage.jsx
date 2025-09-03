@@ -532,7 +532,7 @@ const LoginWithUrlPage = (props) => {
                                                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                                         <img
 
-                                                            src={option.flag ? `${REACT_APP_API_URL}${option.flag}` : "/favicon.png"}
+                                                            src={option.flag ? `${REACT_APP_API_URL}${option.flag}` : "/favicon.ico"}
                                                             alt=""
                                                             style={{ width: "18px", height: "18px", objectFit: "contain" }}
                                                         />
@@ -551,7 +551,7 @@ const LoginWithUrlPage = (props) => {
                                 <div className="form-list">
                                     <label htmlFor="meeting-code" className="form-label mb-2">Meeting Code</label>
                                     <div className="input-wrap">
-                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control !pl-4' value={meetingCode} readOnly />
+                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control !pl-4' value={meetingCode} readOnly disabled={true}/>
 
                                     </div>
                                 </div>

@@ -37,6 +37,25 @@ import { LuClock } from "react-icons/lu";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import ApiLoader from '@/components/Loader';
 
+
+
+
+const DiscriptionRender = ({ description }) => {
+    const [more, setMore] = useState(false);
+
+    return (
+        <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2">
+            <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Description </h3>
+            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{description?.slice(0, more ? description?.length : 100)}{!more ? '...' : ''}</h3>
+            {description?.length > 100 && (
+                <button className="!text-blue-400 !font-montserrat !text-sm !font-normal !shadow-none !mb-0 !text-shadow-none" onClick={() => setMore(!more)}>
+                    {more ? 'Show Less' : 'Show More'}
+                </button>
+            )}
+        </div>
+    )
+}
+
 const ParticipantLobby = ({ history }) => {
     // State management
     const [state, setState] = useState({
@@ -1406,15 +1425,15 @@ const ParticipantLobby = ({ history }) => {
     return (
         <React.Fragment>
             <section className="scheduller-session !bg-white !h-screen !overflow-y-hidden" id="section-main">
-            {
+                {
                     !state.apiresponse && (
                         <ApiLoader />
                     )
                 }
-                
+
                 {/* <Header history={history} logoIMG={state.logoIMG} /> */}
 
-                <div id="landingbg" className="d-flex !flex-col !bg-white !max-w-5xl !mx-auto !rounded-md shadow-md !before:bg-transparent !mt-16 p-5">
+                <div id="landingbg" className="d-flex !flex-col !bg-white !max-w-5xl !mx-auto !rounded-md shadow-md !before:bg-transparent !mt-16 p-5 !h-[85vh] overflow-y-auto">
                     {/* logo  */}
                     <div className="!flex !items-center !justify-center">
                         <img src={state.logoIMG} alt="logo" className="!w-[13rem]" />
@@ -1475,16 +1494,15 @@ const ParticipantLobby = ({ history }) => {
                                     </div>
                                 </div>
 
-                                <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2">
-                                    <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Description </h3>
-                                    <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{eventData['description']}</h3>
-                                </div>
+                               
+
+                                <DiscriptionRender description={eventData['description']} />
 
 
                                 {state.eventRooms.length > 0 ? (
                                     <div className="!flex !items-start !flex-col !justify-start p-4 !rounded-md gap-2 mt-5 w-full">
                                         <h1 className="!text-gray !font-montserrat !text-xl !font-semibold !shadow-none !mb-0 !text-shadow-none !border-none text-center w-full">All Rooms</h1>
-                                        <div className="rooms-listing-whole-blk w-full">
+                                        <div className="w-full">
                                             <div className="rooms-listing-wrapper !p-0 w-full">
                                                 {state.eventRooms.map((room, key) => {
                                                     return (
@@ -1591,11 +1609,7 @@ const ParticipantLobby = ({ history }) => {
                                         </div>
 
 
-
-                                        <div className="!flex !items-start !flex-col !justify-start !mt-5 p-4 !rounded-md shadow-[0_4px_4px_rgba(0,0,0,0.1)] gap-2">
-                                            <h3 className="!text-gray !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">Description </h3>
-                                            <h3 className="!text-dark !font-montserrat !text-lg !font-normal !shadow-none !mb-0 !text-shadow-none">{agendas['description']}</h3>
-                                        </div>
+                                        <DiscriptionRender description={agendas['description']} />
 
                                         {state.eventStatus !== "" && state.eventStatus !== 2 && (
                                             <div className="room-join-btn-wrapper !border-none !shadow-none">
