@@ -553,7 +553,7 @@ const LoginWithUrlPage = (props) => {
                                 <div className="form-list">
                                     <label htmlFor="meeting-code" className="form-label mb-2">Meeting Code</label>
                                     <div className="input-wrap">
-                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control !pl-4' value={meetingCode} readOnly disabled={true}/>
+                                        <input name="meeting-code" id="meeting-code" placeholder="Meeting Code" type="text" className='form-control !pl-4 !text-gray' value={meetingCode} readOnly disabled={true}/>
 
                                     </div>
                                 </div>
