@@ -917,7 +917,7 @@ const EventList = ({ history }) => {
 
                                                         let session_id = session._id;
                                                         let url = buildMeetingUrl(session_id, eventUserData);
-                                                        window.location.href = url;
+                                                        window.location.href = url + `?language=${eventUserData?.language}`;
                                                     } else {
                                                         handleInterpreterUserRecreation(eventUserData, session, loggedInUserRole);
                                                     }
@@ -974,6 +974,8 @@ const EventList = ({ history }) => {
         } else {
             url = REACT_APP_MEETING_URL + session_id + '/' + eventUserData.role + '/' + eventData.user_name + '/' + eventUserData._id;
         }
+
+        
         return url;
     };
 
@@ -1026,7 +1028,7 @@ const EventList = ({ history }) => {
 
                         let session_id = session._id;
                         let url = buildMeetingUrl(session_id, data.data.data);
-                        window.location.href = url;
+                        window.location.href = url + `?language=${data?.data?.data?.language}`;
                     } else {
                         setState(prev => ({ ...prev, joiningMeeting: false }));
                         Toast.fire({

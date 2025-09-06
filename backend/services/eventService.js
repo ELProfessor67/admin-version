@@ -1535,7 +1535,8 @@ export const saveEventUser = async (params) => {
 
             let userFilter = {
                 "event_id": { $eq: params.event_id },
-                "email": { $eq: params.email }
+                "email": { $eq: params.email },
+                "role": { $eq: params.role }
             };
             
             const data = await EventUsersModel.find(userFilter).exec();

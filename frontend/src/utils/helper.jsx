@@ -68,6 +68,7 @@ const decodeEncodedItem = async (decodedItem) => {
         
         const res = await decodeToken(decodedItem)
         decodedItem = res.data.data;
+        console.log(decodedItem,"decodedItem");
         // decodedItem = jwt.decode(decodedItem, REACT_APP_JWT_SECRET, 'HS512');
     }
     return decodedItem;
