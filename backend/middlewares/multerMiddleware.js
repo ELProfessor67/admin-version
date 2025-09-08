@@ -33,6 +33,7 @@ export const fileUploadMiddleware = (folder_name,file_name) => {
     return (req, res, next) => {
         req.folder_name = folder_name;
         uploadFile(req, res, (err) => {
+            
         if (err) {
             err.message = "File size is too large";
             err.status = 500;

@@ -10,7 +10,8 @@ import {
 import { fileUploadMiddleware } from "@/middlewares/multerMiddleware.js";
 
 // Route to save/create speaker details with file upload
-router.route("/save-speaker/:id").post(fileUploadMiddleware("user_logo", "file"), saveUserController);
+// router.route("/save-speaker/:id").post(fileUploadMiddleware("user_logo", "logo"), saveUserController);
+router.route("/save-speaker/:id").post(saveUserController);
 
 // Route to get speaker credentials
 router.route("/get-speaker-credentials").post(getSpeakerController);

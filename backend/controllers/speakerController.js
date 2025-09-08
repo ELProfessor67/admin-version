@@ -35,7 +35,7 @@ export const saveUserController = catchAsyncError(async (req, res, next) => {
         }
 
         // Use multer middleware for file upload
-        const uploadMiddleware = fileUploadMiddleware("user_logo", "file");
+        const uploadMiddleware = fileUploadMiddleware("user_logo", "logo");
         
         uploadMiddleware(req, res, async (error) => {
             if (error) {
@@ -67,6 +67,7 @@ export const saveUserController = catchAsyncError(async (req, res, next) => {
 
             // Handle update existing speaker
             if (req.body.speaker_id && req.body.speaker_id.trim() !== "") {
+                
                 const userDetails = {
                     body: req.body,
                     file: req.file,

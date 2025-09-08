@@ -266,6 +266,7 @@ export default function Agenda(props) {
         }
     }, [eventID, agendaId, props, closeSessionModal, addZero]);
 
+    
     const sessionForm = useCallback(({
         values,
         errors,
@@ -277,7 +278,7 @@ export default function Agenda(props) {
         handleReset,
         setFieldValue,
     }) => {
-        console.log(eventStartTime,"eventStartTime");
+        
         return (
             <React.Fragment>
                 <Form onSubmit={handleSubmit}>
@@ -329,8 +330,8 @@ export default function Agenda(props) {
                                             timeCaption="Time"
                                             dateFormat="h:mm aa"
                                             placeholderText=""
-                                            // minTime={setHours(setMinutes(new Date(), new Date(eventStartTime).getMinutes()), new Date(eventStartTime).getHours())}
-                                            // maxTime={setHours(setMinutes(new Date(), new Date(eventEndTime).getMinutes()), new Date(eventEndTime).getHours())}
+                                            minTime={setHours(new Date(eventStartTime),new Date(eventStartTime).getHours())}
+                                            maxTime={setHours(setMinutes(new Date(), new Date(eventEndTime).getMinutes()), new Date(eventEndTime).getHours())}
                                         />
                                         <ErrorMessage name="session_start_time" component="div" className="validtxt_msg" />
                                     </div>
@@ -350,8 +351,8 @@ export default function Agenda(props) {
                                             timeCaption="Time"
                                             dateFormat="h:mm aa"
                                             placeholderText=""
-                                            // minTime={setHours(setMinutes(new Date(), new Date(eventStartTime).getMinutes()), new Date(eventStartTime).getHours())}
-                                            // maxTime={setHours(setMinutes(new Date(), new Date(eventEndTime).getMinutes()), new Date(eventEndTime).getHours())}
+                                            minTime={setHours(setMinutes(new Date(), new Date(eventStartTime).getMinutes()), new Date(eventStartTime).getHours())}
+                                            maxTime={setHours(setMinutes(new Date(), new Date(eventEndTime).getMinutes()), new Date(eventEndTime).getHours())}
                                         />
                                         <ErrorMessage name="session_end_time" component="div" className="validtxt_msg" />
                                     </div>

@@ -5,6 +5,7 @@ import { exec } from 'child_process';
 import { s3AWSBucket } from '@/services/AWSService.js';
 import ErrorHandler from '@/utils/ErrorHandler.js';
 const __dirname = path.resolve();
+import "dotenv/config";
 /**
  * Save or update speaker details with optional file upload
  */
@@ -35,9 +36,9 @@ export const saveSpeakerDetails = async (params) => {
             }
             fileName = userFile.filename;
             original_path = userFile.path;
-            fileContent = fs.readFileSync(path.resolve(__dirname, '../' + original_path));
+            fileContent = fs.readFileSync(path.resolve(__dirname + '/' + original_path));
             s3params = {
-                Bucket: "rafiky",
+                Bucket: process.env.S3_BUCKET_NAME,
                 Key: original_path,
                 Body: fileContent
             };
