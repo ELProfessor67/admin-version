@@ -15,7 +15,7 @@ import { AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import jsPDF from 'jspdf';
-import 'jspdf-autotable'
+import { autoTable } from 'jspdf-autotable'
 import html2canvas from 'html2canvas';
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -1128,7 +1128,7 @@ const ParticipantLobby = ({ history }) => {
         const marginLeft = 15;
 
         var img = new Image();
-        img.src = REACT_APP_URL + "logo-2-01.png";
+        img.src = REACT_APP_URL + "lingo-you-logo.png";
         doc.addImage(img, 'png', 100, 10, 110, 40);
 
         const data = state.exportUserStreamReports.map(elt => [elt.name, elt.email, elt.role, elt.start_time, elt.end_time, elt.duration]);
@@ -1178,7 +1178,7 @@ const ParticipantLobby = ({ history }) => {
         doc.text("Interpreters: " + interpreterCount, marginLeft, 95);
         doc.text("Listeners: " + listenerCount, 100, 95);
 
-        doc.autoTable({
+        autoTable(doc, {
             startY: 105,
             head: [['User', 'Email', 'Role', 'Start Time', 'End Time', 'Duration']],
             body: data

@@ -52,7 +52,7 @@ export const handleMediaUpload = async (fileName, originalPath, res) => {
   
 export const handlePresentationUpload = async (fileName, originalPath, originalFileName, eventId) => {
     return new Promise((resolve) => {
-      uploadToS3(fileName, originalPath, async (uploadStatus) => {
+      uploadToS3(`./${originalPath}/${fileName}`, fileName, originalPath, async (uploadStatus) => {
         if (uploadStatus) {
           const filePath = process.env.S3_BASE_URL + originalPath + fileName;
           
@@ -68,16 +68,17 @@ export const handlePresentationUpload = async (fileName, originalPath, originalF
           try {
             const savedPPT = await savePPTFile(eventFileParams);
             const room = savedPPT.result?._id || "";
+            const REDIRECT_URL = process.env.REDIRECT_URL;
             
             // Trigger conversion
-            const requestUri = `${process.env.CONVERSION_API_URL}?file=${encodeURIComponent(filePath)}&redirect=${encodeURIComponent(REDIRECT_URL)}&room=${room}&s3update=true&s3bucket=rafiky`;
-            
+            const requestUri = `${process.env.CONVERSION_API_URL}?file=${encodeURIComponent(filePath)}&redirect=${encodeURIComponent(REDIRECT_URL)}&room=${room}&s3update=true&s3bucket=${process.env.S3_BUCKET_NAME}`;
+            console.log('requestUri', requestUri);
             // Fire and forget the conversion request
-            const response = await fetch(requestUri);
-            if(!response.ok){
-                console.error('Conversion request error:', error);
+            // const response = await fetch(requestUri);
+            // if(!response.ok){
+            //     console.error('Conversion request error:', error);
 
-            }
+            // }
   
             resolve({
               status: 'success',

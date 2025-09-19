@@ -13,6 +13,7 @@ import EventEditorPage from "@/pages/EventEditorPage";
 import LoginWithUrlPage from "@/pages/loginWithUrlPage";
 import LogoutPage from "@/pages/LogoutPage";
 import ParticipantLobby from "@/pages/ParticipantLobby";
+// import Streamreports from "./pages/StreamReportPage";
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/schedule" exact component={EventEditorPage} />
             <Route path="/logout" exact component={LogoutPage} />
             <Route path="/:id" exact component={LoginWithUrlPage} />
+            {/* <Route path="/events/downloadStreamReports" exact component={Streamreports} /> */}
         </Switch>
       </Router>
   )

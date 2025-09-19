@@ -14,6 +14,7 @@ export const s3AWSBucket = new AWS.S3({
 
 export const uploadToS3 = (files, fileName, original_path, cb) => {
     // return false;
+    console.log('files', files);
     return new Promise((resolve, reject) => {
         const fileContent = fs.readFileSync(files);
         const params = {
