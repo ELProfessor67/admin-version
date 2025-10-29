@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Swal from 'sweetalert2';
 import ClipLoader from "react-spinners/ClipLoader";
 import apiEventService from "@/service/event/eventService";
-import {Axioslib} from "@/service/api";
+import { Axioslib } from "@/service/api";
 import { Formik, Form, Field } from "formik";
 import { Toast } from "@/components/toastComponent";
 import apiEventUploadService from "@/service/event/eventUploadService";
@@ -40,7 +40,7 @@ const Eventfiles = (props) => {
         enablePopupNot: false,
         disableChat: false
     });
-    
+
     const eventIDRef = useRef("");
     const splittedURLRef = useRef([]);
 
@@ -117,7 +117,7 @@ const Eventfiles = (props) => {
                 } else {
                     setSelectedFile(selectedFileData);
                     setLoaded(0);
-                    
+
                     const data = new FormData();
                     data.append('event_file', selectedFileData);
                     try {
@@ -132,7 +132,7 @@ const Eventfiles = (props) => {
                             document.getElementById("uploadeventfile").value = "";
 
                             if (response && response !== undefined && response !== null && response !== "" && response.status && response.status !== undefined && response.status !== null && response.status === 200) {
-                                
+
                                 if (response.data.status !== "" && response.data.status !== undefined && response.data.status === "success") {
                                     Toast.fire({
                                         icon: 'success',
@@ -220,17 +220,21 @@ const Eventfiles = (props) => {
                 } else {
                     setSelectedFilePPT(selectedFilePPTData);
                     setLoadedPPT(0);
-                    
+
                     const data = new FormData();
                     data.append('event_file', selectedFilePPTData);
                     try {
-                        Axioslib.post("event/upload_file/" + eventIDRef.current, data, {
+                        Axioslib.post("event/upload-file/" + eventIDRef.current, data, {
                             onUploadProgress: ProgressEvent => {
                                 setLoadedPPT(ProgressEvent.loaded / ProgressEvent.total * 100);
                             },
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
                         }).then(response => {
+                            setSelectedFilePPT("");
+                            console.log("response", response);
                             document.getElementById("uploadeventfile_ppt").value = "";
-
                             if (response && response !== undefined && response !== null && response !== "" && response.status && response.status !== undefined && response.status !== null && response.status === 200) {
 
                                 if (response.data.status !== "" && response.data.status !== undefined && response.data.status === "success") {
@@ -299,17 +303,17 @@ const Eventfiles = (props) => {
                 if (data && data !== undefined && data !== null && data !== "" && data.status && data.status !== undefined && data.status !== null && data.status === 200) {
                     if (data.data.status !== "" && data.data.status !== undefined && data.data.status === "success") {
 
-                        if(browsetype === "audiovideo") {
+                        if (browsetype === "audiovideo") {
                             setSelectedFile("");
                             setEventFiles(prev => [data.data.result, ...prev]);
-                        } else if(browsetype === "ppt") {
+                        } else if (browsetype === "ppt") {
                             setSelectedFilePPT("");
                             setEventFiles(prev => [data.data.result, ...prev]);
-                        } else if(browsetype === "url") {
+                        } else if (browsetype === "url") {
                             setDisableBtn(false);
                             setEventFiles(prev => [data.data.result, ...prev]);
                         }
-                        
+
                         document.getElementById("mediaInputUrl").value = "";
                         Toast.fire({
                             icon: 'success',
@@ -463,7 +467,7 @@ const Eventfiles = (props) => {
     };
 
     const submitEventAdditionServices = (values) => {
-        if(selectedFile !== "" || selectedFilePPT !== "") {
+        if (selectedFile !== "" || selectedFilePPT !== "") {
             Toast.fire({
                 icon: 'warning',
                 title: "Please wait. File is being uploading"
@@ -474,23 +478,23 @@ const Eventfiles = (props) => {
                 'signLanguageMode': values.signLanguageMode,
                 'recording': values.recording,
                 'speakerUserList': values.speakerUserList,
-                'enableDownloadPpt':values.enableDownloadPpt,
-                'enableHighResolution':values.enableHighResolution,
-                'enableSecondaryModerator':values.enableSecondaryModerator,
-                'enableMasterSpeaker':values.enableMasterSpeaker,
+                'enableDownloadPpt': values.enableDownloadPpt,
+                'enableHighResolution': values.enableHighResolution,
+                'enableSecondaryModerator': values.enableSecondaryModerator,
+                'enableMasterSpeaker': values.enableMasterSpeaker,
                 'translationAI': values.translationAI,
-                'disablePublicCL':values.disablePublicCL,
-                'disablePublicCS':values.disablePublicCS,
-                'disablePrivateCL':values.disablePrivateCL,
-                'disablePrivateCS':values.disablePrivateCS,
-                'enablePopupNot':values.enablePopupNot,
-                'disableChat':values.disableChat,
+                'disablePublicCL': values.disablePublicCL,
+                'disablePublicCS': values.disablePublicCS,
+                'disablePrivateCL': values.disablePrivateCL,
+                'disablePrivateCS': values.disablePrivateCS,
+                'enablePopupNot': values.enablePopupNot,
+                'disableChat': values.disableChat,
                 '_id': eventIDRef.current
             }
             setDisableNextBtn(true);
             apiEventService.updateEventDetails(additionalService).then((data) => {
                 setDisableNextBtn(false);
-                console.log(data,"data");
+                console.log(data, "data");
                 if (data && data !== undefined && data !== null && data !== "") {
                     if (data.status && data.status !== undefined && data.status !== null && data.status === 200) {
                         if (data.data.status === true) {
@@ -644,76 +648,76 @@ const Eventfiles = (props) => {
                             <div className="event-main-caption">Chat Settings</div>
                             <div className="services-choosing-blk">
                                 <div className="d-flex eventfile-checkbox-wrapper">
+                                    <label className="custom-checkbox">
+                                        <input type="checkbox"
+                                            name="disableChat"
+                                            value={values.disableChat}
+                                            checked={values.disableChat === true ? "checked" : ""}
+                                            onChange={() => { setFieldValue('disableChat', !values.disableChat); }} />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                    <div className="checkbox-label">Disable Chat ( Both private and public chat )</div>
+                                </div>
+                                <span className={values.disableChat ? 'hide' : ''}>
+                                    <div className="d-flex eventfile-checkbox-wrapper">
                                         <label className="custom-checkbox">
                                             <input type="checkbox"
-                                                name="disableChat"
-                                                value={values.disableChat}
-                                                checked={values.disableChat === true ? "checked" : ""}
-                                                onChange={() => { setFieldValue('disableChat', !values.disableChat); }} />
+                                                name="disablePublicCL"
+                                                value={values.disablePublicCL}
+                                                checked={values.disablePublicCL === true ? "checked" : ""}
+                                                onChange={() => { setFieldValue('disablePublicCL', !values.disablePublicCL); }} />
                                             <span className="checkmark"></span>
                                         </label>
-                                        <div className="checkbox-label">Disable Chat ( Both private and public chat )</div>
-                                </div>
-                                <span className={values.disableChat ? 'hide':''}>
-                                <div className="d-flex eventfile-checkbox-wrapper">
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox"
-                                            name="disablePublicCL"
-                                            value={values.disablePublicCL}
-                                            checked={values.disablePublicCL === true ? "checked" : ""}
-                                            onChange={() => { setFieldValue('disablePublicCL', !values.disablePublicCL); }} />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <div className="checkbox-label">Disable Public Chat For Listeners</div>
-                                </div>
-                                <div className="d-flex eventfile-checkbox-wrapper">
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox"
-                                            name="disablePublicCS"
-                                            value={values.disablePublicCS}
-                                            checked={values.disablePublicCS === true ? "checked" : ""}
-                                            onChange={() => { setFieldValue('disablePublicCS', !values.disablePublicCS); }} />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <div className="checkbox-label">Disable Public Chat For Speakers</div>
-                                </div>
-                                <div className="d-flex eventfile-checkbox-wrapper">
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox"
-                                            name="disablePrivateCL"
-                                            value={values.disablePrivateCL}
-                                            checked={values.disablePrivateCL === true ? "checked" : ""}
-                                            onChange={() => { setFieldValue('disablePrivateCL', !values.disablePrivateCL); }} />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <div className="checkbox-label">Disable Private Chat For Listeners</div>
-                                </div>
-                                <div className="d-flex eventfile-checkbox-wrapper">
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox"
-                                            name="disablePrivateCS"
-                                            value={values.disablePrivateCS}
-                                            checked={values.disablePrivateCS === true ? "checked" : ""}
-                                            onChange={() => { setFieldValue('disablePrivateCS', !values.disablePrivateCS); }} />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <div className="checkbox-label">Disable Private Chat For Speakers</div> 
-                                </div>
-                                <div className="d-flex eventfile-checkbox-wrapper">
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox"
-                                            name="enablePopupNot"
-                                            value={values.enablePopupNot}
-                                            checked={values.enablePopupNot === true ? "checked" : ""}
-                                            onChange={() => { setFieldValue('enablePopupNot', !values.enablePopupNot); }} />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <div className="checkbox-label">Enable Popup Notification For Chat</div>
-                                </div>
+                                        <div className="checkbox-label">Disable Public Chat For Listeners</div>
+                                    </div>
+                                    <div className="d-flex eventfile-checkbox-wrapper">
+                                        <label className="custom-checkbox">
+                                            <input type="checkbox"
+                                                name="disablePublicCS"
+                                                value={values.disablePublicCS}
+                                                checked={values.disablePublicCS === true ? "checked" : ""}
+                                                onChange={() => { setFieldValue('disablePublicCS', !values.disablePublicCS); }} />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                        <div className="checkbox-label">Disable Public Chat For Speakers</div>
+                                    </div>
+                                    <div className="d-flex eventfile-checkbox-wrapper">
+                                        <label className="custom-checkbox">
+                                            <input type="checkbox"
+                                                name="disablePrivateCL"
+                                                value={values.disablePrivateCL}
+                                                checked={values.disablePrivateCL === true ? "checked" : ""}
+                                                onChange={() => { setFieldValue('disablePrivateCL', !values.disablePrivateCL); }} />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                        <div className="checkbox-label">Disable Private Chat For Listeners</div>
+                                    </div>
+                                    <div className="d-flex eventfile-checkbox-wrapper">
+                                        <label className="custom-checkbox">
+                                            <input type="checkbox"
+                                                name="disablePrivateCS"
+                                                value={values.disablePrivateCS}
+                                                checked={values.disablePrivateCS === true ? "checked" : ""}
+                                                onChange={() => { setFieldValue('disablePrivateCS', !values.disablePrivateCS); }} />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                        <div className="checkbox-label">Disable Private Chat For Speakers</div>
+                                    </div>
+                                    <div className="d-flex eventfile-checkbox-wrapper">
+                                        <label className="custom-checkbox">
+                                            <input type="checkbox"
+                                                name="enablePopupNot"
+                                                value={values.enablePopupNot}
+                                                checked={values.enablePopupNot === true ? "checked" : ""}
+                                                onChange={() => { setFieldValue('enablePopupNot', !values.enablePopupNot); }} />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                        <div className="checkbox-label">Enable Popup Notification For Chat</div>
+                                    </div>
                                 </span>
                             </div>
                         </div>
-                      
+
                     </div>
                     <div className="media-upload-blk floatleft full-width">
                         <div className="event-main-caption">Upload & Share Video</div>
@@ -722,7 +726,12 @@ const Eventfiles = (props) => {
                                 <div className="upload-vdo-caption">Upload File</div>
                                 <div className="d-flex align-items-center justify-content-center vdo-file-uploader" style={{ "flexDirection": "column" }}>
                                     <label className="vdo-file-upload-btn">
-                                        <input type="file" id="uploadeventfile" className="d-none" onChange={onChangeHandler} />Browse
+                                        {
+                                            selectedFile !== "" ? <div className="d-flex align-items-center">Uploading...</div> :
+                                            <>
+                                                <input type="file" id="uploadeventfile" className="d-none" onChange={onChangeHandler} />Browse
+                                            </>
+                                        }
                                     </label>
                                     <div className="notification-area" style={{ "marginTop": "1rem" }}>
                                         <div className="notification-text">Supported formats: <span>mp4, mp3</span></div>
@@ -801,9 +810,14 @@ const Eventfiles = (props) => {
                             <div className="ppt-upload-blk">
                                 <div className="upload-vdo-caption">Upload PPT</div>
                                 <div className="ppt-uploader">
-                                    <div className="d-flex align-items-center justify-content-center vdo-file-uploader" style={{"flexDirection": "column"}}>
+                                    <div className="d-flex align-items-center justify-content-center vdo-file-uploader" style={{ "flexDirection": "column" }}>
                                         <label className="vdo-file-upload-btn">
-                                            <input type="file" id="uploadeventfile_ppt" className="d-none" onChange={onPPTChangeHandler} />Browse
+                                            {
+                                                selectedFilePPT !== "" ? <div className="d-flex align-items-center">Uploading...</div> :
+                                                <>
+                                                    <input type="file" id="uploadeventfile_ppt" className="d-none" onChange={onPPTChangeHandler} />Browse
+                                                </>
+                                            }
                                         </label>
                                         <div className="notification-area" style={{ "marginTop": "1rem" }}>
                                             <div className="notification-text">Supported formats: <span>ppt, pptx</span></div>
@@ -869,7 +883,7 @@ const Eventfiles = (props) => {
 
                                         : ''}
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

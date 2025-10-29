@@ -83,8 +83,6 @@ export const handlePresentationUpload = async (fileName, originalPath, originalF
               eventData.status = 'success';
               await eventData.save();
 
-              eventData.presentation_url = `${process.env.PRESENTATION_URL}${url}`;
-
               resolve({
                 status: 'success',
                 error: 'false',
