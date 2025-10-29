@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import "dotenv/config";
 
 const EventFilesScheme = new mongoose.Schema({
     title: { type: String, default: '' },
@@ -14,9 +15,12 @@ const EventFilesScheme = new mongoose.Schema({
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "event"
-    }
+    },
+    presentation_url: { type: String, default: undefined, get: function(v) { return v ? process.env.PRESENTATION_URL + v : undefined; } }
 }, {
     timestamps: true
 });
+
+EventFilesScheme.set('toJSON', { getters: true });
 
 export default mongoose.model('event_files', EventFilesScheme);

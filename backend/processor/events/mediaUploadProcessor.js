@@ -5,6 +5,8 @@ import "dotenv/config";
 import { savePPTFile } from "@/services/eventService.js";
 import { sanitizeFileName } from "./sanitizeFileNameProcessor";
 import { getFileExtension } from "./getFileExtensionProcessor";
+import { convertPresentation } from "@/services/PresentationService";
+import EventFilesModel from "@/models/eventFilesModel";
 
 const ALLOWED_EXTENSIONS = {
     MEDIA: ['mp4', 'mp3'],
@@ -69,23 +71,44 @@ export const handlePresentationUpload = async (fileName, originalPath, originalF
             const savedPPT = await savePPTFile(eventFileParams);
             const room = savedPPT.result?._id || "";
             const REDIRECT_URL = process.env.REDIRECT_URL;
-            
-            // Trigger conversion
-            const requestUri = `${process.env.CONVERSION_API_URL}?file=${encodeURIComponent(filePath)}&redirect=${encodeURIComponent(REDIRECT_URL)}&room=${room}&s3update=true&s3bucket=${process.env.S3_BUCKET_NAME}`;
-            console.log('requestUri', requestUri);
-            // Fire and forget the conversion request
-            // const response = await fetch(requestUri);
-            // if(!response.ok){
-            //     console.error('Conversion request error:', error);
+            console.log(`CONVERTING PRESENTATION ${fileName}`);
+            const conversionResponse = await convertPresentation(`./${originalPath}/${fileName}`, fileName);
+            console.log('conversionResponse', conversionResponse);
+            if(conversionResponse.id){
+              const url = `/PptDirectory/${conversionResponse.id}/HTML5Point_output/HTML5Point_output.html`;
+              console.log('url', url);
+              const eventData = await EventFilesModel.findById(room).exec();
+              eventData.presentation_url = url;
+              eventData.converted_status = 1;
+              eventData.status = 'success';
+              await eventData.save();
 
-            // }
-  
-            resolve({
-              status: 'success',
-              error: 'false',
-              message: 'Conversion is in progress',
-              result: savedPPT
-            });
+              eventData.presentation_url = `${process.env.PRESENTATION_URL}${url}`;
+
+              resolve({
+                status: 'success',
+                error: 'false',
+                message: 'Conversion is in progress',
+                result: eventData
+              });
+
+            }else{
+              // Trigger conversion
+              const requestUri = `${process.env.CONVERSION_API_URL}?file=${encodeURIComponent(filePath)}&redirect=${encodeURIComponent(REDIRECT_URL)}&room=${room}&s3update=true&s3bucket=${process.env.S3_BUCKET_NAME}`;
+              console.log('requestUri', requestUri);
+              // Fire and forget the conversion request
+              const response = await fetch(requestUri);
+              if(!response.ok){
+                  console.error('Conversion request error:', error);
+              }
+    
+              resolve({
+                status: 'success',
+                error: 'false',
+                message: 'Conversion is in progress',
+                result: savedPPT
+              });
+            }
           } catch (error) {
             console.error('Error saving PPT file:', error);
             resolve({
