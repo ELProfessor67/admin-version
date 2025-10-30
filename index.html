@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Translate Auto Font Resize</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #0078ff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fcc;
+    }
+
+    #google_translate_element {
+      margin-bottom: 15px;
+    }
+
+    .content {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Google Translate + Font Resize Demo</h1>
+
+  <!-- Google Translate dropdown -->
+  <div id="google_translate_element"></div>
+
+  <div class="content">
+    <p>
+      Hello! This is a demo paragraph. When you translate this page using Google Translate,
+      the text will automatically shrink by 40%.
+    </p>
+    <p>
+      When you switch back to the original language, the font size will return to normal.
+    </p>
+  </div>
+
+  <script>
+    // Load Google Translate script
+    function loadGoogleTranslate() {
+      new google.translate.TranslateElement(
+        { pageLanguage: 'en', autoDisplay: false },
+        'google_translate_element'
+      );
+    }
+
+    // Inject Google Translate script dynamically
+    (function() {
+      const gt = document.createElement("script");
+      gt.type = "text/javascript";
+      gt.src = "//translate.google.com/translate_a/element.js?cb=loadGoogleTranslate";
+      document.head.appendChild(gt);
+    })();
+
+    // ===== FONT SIZE REDUCE/RESTORE FUNCTIONS =====
+    function reduceAllTextSize(doc) {
+      if (!doc) return;
+
+      function traverse(node) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const style = window.getComputedStyle(node);
+          const fontSize = style.fontSize;
+          const match = fontSize.match(/^([\d.]+)([a-z%]*)$/i);
+          if (match) {
+            const value = parseFloat(match[1]);
+            const unit = match[2] || "px";
+            if (node.textContent.trim().length > 0 && value > 0) {
+              if (!node.dataset.originalFontSize) {
+                node.dataset.originalFontSize = fontSize;
+              }
+              node.style.fontSize = (value * 0.7).toFixed(3) + unit;
+            }
+          }
+          for (const child of node.childNodes) traverse(child);
+        }
+      }
+      traverse(doc.body || doc);
+    }
+
+    function restoreAllTextSize(doc) {
+      if (!doc) return;
+      const elements = doc.querySelectorAll("[data-original-font-size]");
+      elements.forEach(el => {
+        el.style.fontSize = el.dataset.originalFontSize;
+        delete el.dataset.originalFontSize;
+      });
+    }
+
+    // ===== DETECT TRANSLATION EVENT =====
+    let lastLang = "en";
+
+    // Observe Google Translate changes (it injects <html class="translated-ltr"> etc.)
+    const observer = new MutationObserver(() => {
+      const htmlTag = document.documentElement;
+      if (htmlTag.classList.contains("translated-ltr") || htmlTag.classList.contains("translated-rtl")) {
+        if (lastLang === "en") {
+          reduceAllTextSize(document);
+          lastLang = "translated";
+        }
+      } else {
+        if (lastLang === "translated") {
+          restoreAllTextSize(document);
+          lastLang = "en";
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  </script>
+</body>
+</html>

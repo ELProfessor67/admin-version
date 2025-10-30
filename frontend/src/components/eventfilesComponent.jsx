@@ -232,7 +232,15 @@ const Eventfiles = (props) => {
                                 'Content-Type': 'multipart/form-data'
                             },
                         }).then(response => {
-                            setSelectedFilePPT("");
+
+                            if(response && response.data.result){
+                                setSelectedFilePPT("");
+                                setEventFiles(prev => [response.data.result, ...prev]);
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: "Event file uploaded"
+                                })
+                            }
                             console.log("response", response);
                             document.getElementById("uploadeventfile_ppt").value = "";
                             if (response && response !== undefined && response !== null && response !== "" && response.status && response.status !== undefined && response.status !== null && response.status === 200) {
