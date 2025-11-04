@@ -735,3 +735,10 @@ export const LANGUAGES = [
     { "language": "Walloon", "flag": "/flags/be.svg" }
 ]
 
+export const docsLanguages = [
+    { "language": "english","languageCode": "en-GB"},
+    { "language": "french","languageCode": "fr"},
+    { "language": "german","languageCode": "de"},
+    { "language": "spanish","languageCode": "es"},
+    { "language": "italian","languageCode": "it"},
+]

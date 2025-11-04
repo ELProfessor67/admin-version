@@ -16,7 +16,14 @@ const EventFilesScheme = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "event"
     },
-    presentation_url: { type: String, default: undefined, get: function(v) { return v ? process.env.PRESENTATION_URL + v : undefined; } }
+    presentation_url: { type: String, default: undefined, get: function(v) { return v ? process.env.PRESENTATION_URL + v : undefined; } },
+    languages: [
+        {
+            language: { type: String, default: '' },
+            url: { type: String, default: '', get: function(v) { return v ? process.env.PRESENTATION_URL + v : undefined; } },
+            languageCode: { type: String, default: '' },
+        }
+    ]
 }, {
     timestamps: true
 });
